@@ -9,62 +9,66 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class DashboardComponent {
   sideBarOpen:boolean=false;
-  analysisData={
-    totalOrders:0,
-    totalProducts:0,
-    totalUsers:0,
-    totalBlogs:0
-  };
-  constructor(private _product:ProductService){}
+  totalOrders:number=0;
+  totalProducts:number=0;
+  monthNumbersOrders:number[]=[];
+  monthNumbersProduct:number[]=[];
+  year:number=new Date().getFullYear();
+  months:string[] = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
+  constructor(private _product:ProductService){
+    this._product.getAdminDashAnalsis().subscribe((res: any) => {
+      this.monthNumbersOrders = this.months.map(
+        month => res.data?.orderResult?.[this.year]?.[month] ?? 0
+      );
+      this.monthNumbersProduct = this.months.map(
+        month => res.data?.productResult?.[this.year]?.[month] ?? 0
+      );
+      this.totalOrders = this.monthNumbersOrders.reduce((acc, curr) => acc + curr, 0);
+      this.totalProducts = this.monthNumbersProduct.reduce((acc, curr) => acc + curr, 0);
 
-  getAdminAnalysis(){
-    this._product.getAdminDashAnalsis().subscribe((res:any)=>{
-     this.analysisData = res.data;
-    })
+      this.createCharts();
+    });
   }
-  ngOnInit(){
-    this.getAdminAnalysis();
-    // alert()
-    // this._product.reloadUser();
-  new Chart("myChart", {
+   
+  createCharts() {
+  new Chart("orders", {
     type: 'bar',
     data: {
-      labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'],
+      labels: this.months,
       datasets: [{
         label: '# Orders',
-        data: [12,19,3,5,2,3,45,78,12,54,66,100],
+        data: this.monthNumbersOrders,
         borderWidth: 1,
       }]
     },
     options: {
       scales: {
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       }
     }
   });
-  
-  new Chart("myChart2", {
+
+  new Chart("products", {
     type: 'bar',
     data: {
-      labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'],
+      labels: this.months,
       datasets: [{
-        label: '# Orders',
-        data: [12,19,3,5,2,3,45,78,12,54,66,100],
+        label: '# Products',
+        data: this.monthNumbersProduct,
         borderWidth: 1,
       }]
     },
     options: {
       scales: {
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       }
     }
   });
+}
 
-
-  }
   
+   ngOnInit(){}
 }

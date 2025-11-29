@@ -16,29 +16,25 @@ getAllProduct:any=[];
 dataFilter:any;
 productIdParms:any;
 viewPro={
-  "name":"",
-  "quantity":"",
-  "description":"",
-  "type":"",
-  "image":"",
-  "price":0,
-  "oldPrice":0,
- 
+  productName:'',
+  productPurchasingPrice:null,
+  productSellingPrice:null,
+  productQuantity:null,
+  productPurchasingDate:'',
+  productCategory:''
 }
 
 getProductType(){
   this.productIdParms= this._activatedRoute.snapshot.paramMap.get('id');
   this._product.get_SingleProduct(this.productIdParms).subscribe((res:any)=>{
-   this.viewPro.name=res.data.name;
-   this.viewPro.description=res.data.description;
-   this.viewPro.quantity=res.data.quantity;
-   this.viewPro.type=res.data.type;
-   this.viewPro.image=res.data.image;
-   this.viewPro.price=res.data.price;
-   this.viewPro.oldPrice=res.data.oldPrice;
+   this.viewPro.productName=res.data.productName;
+   this.viewPro.productPurchasingPrice=res.data.productPurchasingPrice;
+   this.viewPro.productSellingPrice=res.data.productSellingPrice;
+   this.viewPro.productQuantity=res.data.productQuantity;
+   this.viewPro.productPurchasingDate=res.data.productPurchasingDate;
+   this.viewPro.productCategory=res.data.productCategory;
   })
 }
-
 
 ngOnInit(){
    this.getProductType(); 

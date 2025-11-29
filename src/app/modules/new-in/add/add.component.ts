@@ -28,17 +28,16 @@ dataFilter:any;
 isError="";
 category:any[] = [];
 createPro={
-  "name":"",
-  "quantity":"",
-  "description":"",
-  "type":"",
-  "image":"",
-  "price":0,
-  "oldPrice":0,
+  productName:'',
+  productPurchasingPrice:null,
+  productSellingPrice:null,
+  productQuantity:null,
+  productPurchasingDate:'',
+  productCategory:''
  
 }
 getCategoryHtm(val:any){
-  this.createPro.type=val.value;
+  this.createPro.productCategory=val.value;
 }
 createProduct():void{
   console.log(this.createPro)
@@ -56,13 +55,12 @@ createProduct():void{
 }
 
 createProEmpty(){
-  this.createPro.name=""
-  this.createPro.quantity=""
-  this.createPro.description=""
-  this.createPro.type=""
-  this.createPro.image=""
-  this.createPro.price=0
-  this.createPro.oldPrice=0
+  this.createPro.productName='';
+  this.createPro.productPurchasingPrice=null;
+  this.createPro.productSellingPrice=null;
+  this.createPro.productQuantity=null;
+  this.createPro.productPurchasingDate='';
+  // this.createPro.productCategory='';
 }
 
 getProductType(){
@@ -72,7 +70,7 @@ getProductType(){
 }
 getCategroy(){
   this._product.get_Categroy().subscribe((res:any)=>{
-    this.category = res.data
+    this.category = res.data[0].categories
   })
 }
 gettype(){

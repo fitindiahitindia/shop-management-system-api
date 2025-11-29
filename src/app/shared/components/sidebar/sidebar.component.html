@@ -1,14 +1,11 @@
 <mat-nav-list>
     <div class="profile-card">
         <div class="header" style="margin-left: 20px;">
-            <h3>Welcome, Admin</h3>
+            <!-- <h6>Welcome, Admin</h6> -->
         </div>
     </div>
-    <li><a routerLink="dashboard" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 16px;">🏠</span> Dashboard</a></li>
-    <li><a routerLink="new-in" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 14px;">📦</span> Manage Products</a></li>
-    <li><a routerLink="manage-orders" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 15px;">🎁</span> Manage Orders</a></li>
-    <li><a routerLink="manage-users" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 16px;">👨‍🦱</span> Manage Users</a></li>
-    <li><a routerLink="manage-blogs" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 16px;">📄</span> Manage Blogs</a></li>
-    <li><a routerLink="manage-website" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 16px;">📟</span> Manage Website</a></li>
-    <li><a routerLink="setting" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 19px;">⚙</span> Setting</a></li>
+    <li><a routerLink="dashboard" (click)="closeSideBar()" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 16px;">🏠</span> Dashboard</a></li>
+    <li><a routerLink="new-in" (click)="closeSideBar()" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 14px;">📦</span> Manage Products</a></li>
+    <li><a routerLink="manage-orders" (click)="closeSideBar()" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 15px;">🎁</span> Manage Orders</a></li>
+    <li><a routerLink="setting" (click)="closeSideBar()" routerLinkActive="list-item-active" mat-list-item style="padding-left:30px"><span style="height: 15px;width: 15px;padding:5px;font-size: 19px;">⚙</span> Setting</a></li>
 </mat-nav-list>

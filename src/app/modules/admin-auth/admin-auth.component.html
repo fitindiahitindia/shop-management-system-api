@@ -1,14 +1,15 @@
+
 <div class="container my-3">
   <div class="row">
-      <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-11 mx-auto ">
-          <div class="login p-4 bg-white border">
-              <div class="heading text-center fs-3 text-dark fw-bold">Admin Login</div>
+      <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-11 mx-auto" >
+          <div class="login p-4 bg-white border mt-5">
+              <div class="heading text-center fs-3 text-dark fw-bold">Login</div>
               <form class="row g-md-3 g-1" (ngSubmit)="adminLogin(adminForm.value)" #adminForm="ngForm">
                   
                   <div class="col-12">
-                    <label for="Email" class="form-label">Email <sup class="text-danger">*</sup></label>
-                    <input type="email" class="form-control form-control-lg" id="Email" name="email" required ngModel email #email="ngModel">
-                    <small class="text-danger" *ngIf="!email.valid && email.touched">Please enter email</small>
+                    <label for="shopId" class="form-label">Shop Id <sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control form-control-lg" id="shopId" name="shopId" required ngModel shopId #shopId="ngModel">
+                    <small class="text-danger" *ngIf="!shopId.valid && shopId.touched">Please enter shop id</small>
                   </div>
                   <div class="col-12">
                       <label for="Phone" class="form-label">Password <sup class="text-danger">*</sup></label>
@@ -19,11 +20,62 @@
                       <a routerLink="forgot-password" class="text-dark">Forgot you password?</a>
                   </div>
                   <div class="col-12">
+                    <span class="text-danger"  (click)="isOpen=true">{{errorStatus}}</span>
+                  </div>
+                  <div class="col-12 text-center">
+                    <button mat-flat-button class=" mt-4 p-sm-4 p-4 w100_575 w-100" type="submit" color="accent" [disabled]="!adminForm.valid">
+                      <span class="fw-bold">Sign In</span>
+                    </button>
+                  </div>
+                  <!-- <div class="col-12 text-center">
+                      <button routerLink="register" mat-stroked-button class=" mt-2 p-sm-4 p-4 border border-dark w100_575 w-100" color="primary">
+                        <span class="text-uppercase fw-bold">create account</span>
+                      </button>
+                    </div> -->
+                </form>
+          </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-8 col-11 mx-auto" *ngIf="isOpen">
+          <div class="login p-4 bg-white border">
+              <div class="heading text-center fs-3 text-dark fw-bold">Admin Registration</div>
+              <form class="row g-md-3 g-1" (ngSubmit)="adminRegister(adminRegisterForm.value)" #adminRegisterForm="ngForm">
+                  
+                  <div class="col-6">
+                    <label for="shopName" class="form-label">Shop Name <sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control form-control-lg" id="shopName" name="shopName" required ngModel shopName #shopName="ngModel">
+                    <small class="text-danger" *ngIf="!shopName.valid && shopName.touched">Please enter shop name</small>
+                  </div>
+                   <div class="col-6">
+                    <label for="ownerName" class="form-label">Owner Name <sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control form-control-lg" id="ownerName" name="ownerName" required ngModel ownerName #ownerName="ngModel">
+                    <small class="text-danger" *ngIf="!ownerName.valid && ownerName.touched">Please enter owner name</small>
+                  </div>
+                   <div class="col-6">
+                    <label for="mobileNo" class="form-label">mobileNo <sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control form-control-lg" id="mobileNo" name="mobileNo" required ngModel mobileNo #mobileNo="ngModel">
+                    <small class="text-danger" *ngIf="!mobileNo.valid && mobileNo.touched">Please enter mobileNo</small>
+                  </div>
+                   <div class="col-6">
+                    <label for="email" class="form-label">email <sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control form-control-lg" id="email" name="email" required ngModel email #email="ngModel">
+                    <small class="text-danger" *ngIf="!email.valid && email.touched">Please enter email</small>
+                  </div>
+                   <div class="col-6">
+                    <label for="address" class="form-label">address <sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control form-control-lg" id="address" name="address" required ngModel address #address="ngModel">
+                    <small class="text-danger" *ngIf="!address.valid && address.touched">Please enter address</small>
+                  </div>
+                  <div class="col-6">
+                      <label for="password" class="form-label">Password <sup class="text-danger">*</sup></label>
+                      <input type="password" class="form-control form-control-lg" id="password" name="password" required ngModel password #password="ngModel">
+                    <small class="text-danger" *ngIf="!password.valid && password.touched">Please enter password</small>
+                  </div>
+                  <div class="col-12">
                     <span class="text-danger">{{errorStatus}}</span>
                   </div>
                   <div class="col-12 text-center">
-                    <button mat-flat-button class=" mt-4 p-sm-4 p-4 w100_575 w-100" type="submit" color="primary" [disabled]="!adminForm.valid">
-                      <span class="fw-bold">Sign In</span>
+                    <button mat-flat-button class=" mt-4 p-sm-4 p-4 w100_575 w-100" type="submit" color="primary" [disabled]="!adminRegisterForm.valid">
+                      <span class="fw-bold">Register</span>
                     </button>
                   </div>
                   <!-- <div class="col-12 text-center">
@@ -42,3 +94,5 @@
   <span class="text-success fw-bold">Login</span> Successfully 
 </div>
 </div>
+
+<div style="position: fixed;bottom: 0;width: 100%;color:#000" class="f_13">All copyright reversed at Vicky Computers v 1.0</div>

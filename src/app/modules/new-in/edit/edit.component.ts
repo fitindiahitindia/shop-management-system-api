@@ -24,13 +24,13 @@ export class EditComponent {
   }
   getCategroy(){
     this._product.get_Categroy().subscribe((res:any)=>{
-      this.category = res.data
+      this.category = res.data[0].categories
     })
   }
   editProduct(data:any){
     const abc={
       ...data,
-      type:this.selectedValue
+      productCategory:this.selectedValue
     }
     this._product.update_SingleProduct(this.productIdParms,abc).subscribe((res:any)=>{
       this.isSuccess=true;

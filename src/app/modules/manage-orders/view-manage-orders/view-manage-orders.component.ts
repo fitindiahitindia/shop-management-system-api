@@ -13,7 +13,7 @@ export class ViewManageOrdersComponent {
   orderStatus:any = orderStatus;
   ordersLenght:number=0
   constructor(private _product:ProductService, private _activatedRoute:ActivatedRoute){}
-  orderDetails:any[]=[];
+  orderDetails:any=[];
   totalprice:number[]=[]
   totalquantity:number[]=[]
   shippingcharge:any=[]
@@ -26,14 +26,16 @@ export class ViewManageOrdersComponent {
   orderStatusVal2:string=""
   ispopupStatus:boolean = false;
   popupMsg=""
-
+  orderDetailsLoader:boolean=true;
+  
   getOrderDetails(){
    if(this.orderId){
    this._product.get_UserOrder(this.orderId).subscribe((res:any)=>{
-    this.orderDetails =res.data;
-    console.log(res.data)
+      this.orderDetails =res.data.order[0]; 
+      this.orderDetailsLoader=false
    })
   }
+  
   }
 
    total(){
@@ -64,7 +66,7 @@ export class ViewManageOrdersComponent {
     const statusObj = {status:this.orderStatusVal}
     this._product.set_OrderStatus(id,statusObj).subscribe((res:any)=>{
       this.getOrderStatus();
-      this.ispopupStatus=true
+      // this.ispopupStatus=true
       setTimeout(() => {
         this.ispopupStatus=false;
       }, 3000);
@@ -76,7 +78,7 @@ export class ViewManageOrdersComponent {
   }
   ngOnInit(){
     this.getOrderDetails();
-    this.total();
-    this.getOrderStatus();
+    // this.total();
+    // this.getOrderStatus();
   }
 }

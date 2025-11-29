@@ -52,17 +52,12 @@
           <div class="row py-2  border bg-light">
             <div class="col-6">
               <label class="form-label">Name</label>
-              <input type="text" class="form-control form-control-sm bg-white" ngModel="{{getProductData.name}}" name="name" >
+              <input type="text" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productName}}" name="productName" >
             </div>
             <div class="col-6">
               <label class="form-label">Quantity</label>
-              <input type="text" class="form-control form-control-sm bg-white" ngModel="{{getProductData.quantity}}" name="quantity"
+              <input type="number" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productQuantity}}" name="productQuantity"
                 >
-            </div>
-            <div class="col-12">
-              <label class="form-label">Description</label>
-              <textarea type="text" class="form-control form-control-sm bg-white" ngModel="{{getProductData.description}}" name="description"
-                ></textarea>
             </div>
             <div class="col-6">
               <label class="form-label">Category</label>
@@ -70,7 +65,7 @@
                 <option value="" *ngFor="let item of dataFilter;"><span class="text-capitalize">{{item}}</span></option>
               </select> -->
                <select name="" id="" class="form-select form-select-sm form-control-sm text-capitalize" #val (change)="productType(val)">
-                <option [selected]="cat.categoryName ==getProductData.type ? true:false" value="{{cat.categoryName}}" *ngFor="let cat of category;"><span class="text-capitalize">{{cat.categoryName}}</span></option>
+                <option [selected]="cat.categoryName == getProductData.productCategory ? true:false" value="{{cat.categoryName}}" *ngFor="let cat of category;"><span class="text-capitalize">{{cat.categoryName}}</span></option>
               </select>
               <!-- <select name="" id="" class="form-select form-select-sm form-control-sm text-capitalize" [ngModelOptions]="{standalone: true}" (change)="productType($event)" ngModel="{{getProductData.type}}">
                 <option value="" selected disabled>Select category type</option>
@@ -78,17 +73,17 @@
               </select> -->
             </div>
             <div class="col-6">
-              <label class="form-label">Image</label>
-              <input type="text" class="form-control form-control-sm bg-white" ngModel="{{getProductData.image}}" name="image">
+              <label class="form-label">Purchasing Price</label>
+              <input type="number" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productPurchasingPrice}}" name="productPurchasingPrice">
             </div>
     
             <div class="col-6">
-              <label class="form-label">Price (&#8377;)</label>
-              <input type="number" min="0" class="form-control form-control-sm bg-white" ngModel="{{getProductData.price}}"  name="price">
+              <label class="form-label">Selling Price (&#8377;)</label>
+              <input type="number" min="0" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productSellingPrice}}"  name="productSellingPrice">
             </div>
             <div class="col-6">
-              <label class="form-label">oldprice (&#8377;)</label>
-              <input type="number" min="0" class="form-control form-control-sm bg-white" ngModel="{{getProductData.oldPrice}}" name="oldPrice"
+              <label class="form-label">Purchasing Date (&#8377;)</label>
+              <input type="date" min="0" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productPurchasingDate}}" name="productPurchasingDate"
                >
             </div>
             <div class="col-12 text-danger my-1" *ngIf="isError">

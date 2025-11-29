@@ -1,0 +1,122 @@
+<div class="container-fluid">
+  <div class="row p-0">
+    <!-- <pre>
+      {{storPro|json}}
+    </pre> -->
+    <div class="col-md-6 p-0  mt-2">
+      <div class="card">
+        <div class="card-header fs-5 fw-medium">
+          Add Order
+        </div>
+        <div class="card-body py-1">
+          <form action="" class="" #orderForm="ngForm">
+            <div class="row py-2  border bg-light">
+              <div class="col-xl-12 col-lg-12 col-12 mb-4">
+                <label class="form-label">Product *</label>
+                <select class="form-select form-select-sm" name="productId" [(ngModel)]="createPro.productId"
+                  (change)="getProductHtm($event)" required>
+                  <option value="" disabled selected>Select Product</option>
+                  <option *ngFor="let pro of products" [value]="pro._id">{{pro.productName}}</option>
+                </select>
+                <div class="text-danger" *ngIf="orderForm.submitted && !createPro.productId">
+                  Product required!
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-6">
+                <label class="form-label">Product Stock</label>
+                <input readonly [ngStyle]="{'font-weight':'bold'}" type="number"
+                  class="form-control form-control-sm bg-light" name="getproductQuantity"
+                  [ngModelOptions]="{standalone: true}" [(ngModel)]="storPro.getproductQuantity">
+              </div>
+              <div class="col-xl-6 col-lg-6 col-6">
+                <label class="form-label">Selling Price</label>
+                <input readonly style="font-weight: bold;" type="number" class="form-control form-control-sm bg-light"
+                  name="getproductSellingPrice" [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="storPro.getproductSellingPrice">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Quantity *</label>
+                <input type="number" name="productQuantity" min="1" class="form-control form-control-sm"
+                  [(ngModel)]="createPro.productQuantity" required />
+                <div class="text-danger" *ngIf="orderForm.submitted && !createPro.productQuantity">
+                  Quantity required!
+                </div>
+              </div>
+
+              <div class="col-6">
+                <label class="form-label">Selling Price (&#8377;) *</label>
+                <input type="number" name="productSellingPrice" min="1" class="form-control form-control-sm"
+                  [(ngModel)]="createPro.productSellingPrice" required />
+                <div class="text-danger" *ngIf="orderForm.submitted && !createPro.productSellingPrice">
+                  Selling price required!
+                </div>
+              </div>
+
+              <div class="col-12 text-danger my-1" *ngIf="isError">
+                ❌{{isError}}
+              </div>
+              <div style="margin-top: 8px;">
+                <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="addCart(orderForm)">Add
+                  Cart</button>
+                <button mat-flat-button color="warn" style="margin-right: 5px;" [disabled]="isCreateOrderLoader"
+                  (click)="createOrder()">Order Save</button>
+                <button mat-flat-button color="accent" type="button" routerLink="../">Close</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 p-0">
+      <div class="position-relative f_14 w-100">
+        <div class="table-responsive">
+          <table class="table mt-2 border table-responsive table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" class="bg-light">S.No</th>
+                <th scope="col" class="bg-light">P.Name</th>
+                <th scope="col" class="bg-light">Qty</th>
+                <th scope="col" class="bg-light">S.Price</th>
+                <th scope="col" class="bg-light">total</th>
+                <th scope="col" class="bg-light">Act</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of multiProducts;let i=index">
+
+                <td>{{i+1}}</td>
+                <td>{{item.productName}}</td>
+                <td>{{item.productQuantity}}</td>
+                <td>{{item.productSellingPrice}} &#8377;</td>
+                <td>{{item.productQuantity * item.productSellingPrice}} &#8377;</td>
+                <td>
+                  <button class="btn btn-danger btn-sm p-1 my-0 py-0" (click)="removeCartItem(i)">Remove</button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot *ngIf="multiProducts.length > 0">
+              <tr>
+                <th scope="col" colspan="4" class="bg-light">Grand Total</th>
+                <th scope="col" colspan="2" class="bg-light">{{grandTotal()}} &#8377;</th>
+              </tr>
+            </tfoot>
+          </table>
+          <div class="text-center" *ngIf="multiProducts.length == 0">Add Order to cart</div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="successLoader d-flex align-items-end justify-content-center">
+  <div class="position-fixed z-2 bg-warning text-dark border border-dark px-3 p-1"
+    [ngStyle]="isCreateOrd ? {'top':'30px','transition':'1s'} :{'top':'-50px','transition':'2s'}">
+    <span class="text-success fw-bold">Order Created</span> Successfully
+  </div>
+</div>

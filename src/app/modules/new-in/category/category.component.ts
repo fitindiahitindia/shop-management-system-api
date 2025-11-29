@@ -16,28 +16,30 @@ export class CategoryComponent {
   categoryName=""
   editId=""
   categoryObj:any = {
-    categoryName:"" || null,
+    categoryName:"",
   }
-  onCategory(category:NgForm){
-    this.createCategory(category)
+  uploadError=""
+  onCategory(category:any){
+    this.categoryObj.categoryName = category.categoryName
+    this.createCategory(this.categoryObj)
     category.resetForm()
   }
   createCategory(category:any){
-    // let formParmas = new FormData();
-    // formParmas.append('file',this.file);
-    // console.log(formParmas)
     this._product.create_Category(category).subscribe((res:any)=>{
       this.isSuccess = true;
       this.message = "Category Add Successfully"
+      this.categoryObj.categoryName=""
       this.getCategory()
       setTimeout(() => {
         this.isSuccess = false;
       }, 3000);
+      },(error)=>{
+       this.uploadError = error.error
       })
   }
   getCategory(){
     this._product.get_Categroy().subscribe((res:any)=>{
-      this.productCategory = res.data
+      this.productCategory = res.data[0].categories
     })
   } 
   updateCategory(){
@@ -75,29 +77,70 @@ export class CategoryComponent {
     this.updateCategory()
   }
 
-  file:any;
-
-  onFilechange(event:any):any{
-    if(event.target.files.length>0){
-      const file = event.target.files[0]
-      const formData  = new FormData();
-      formData.append("category_file",file);
-      formData.append("categoryName",this.categoryObj.categoryName);
-      this.file = formData;
-      // this._product.upload(formData).subscribe((res:any)=>{
-      //   if(res){
-      //     alert("image upload successfully")
-      //   }
-      // },error=>{alert(error.error)})
-    }
-  }
-  upload(){
-    // this._product.upload(this.file).subscribe((res:any)=>{
-    //   console.log(res)
-    // })
-  }
-
+  
   ngOnInit(){
    this.getCategory();
+   let objlocalstorage = new MylocalStorage();
+   console.log(this.productCategory)
+  }
+  
+ 
+}
+
+interface BasicCar{
+ 
+}
+class MylocalStorage{  
+
+  getAllLocalStorage():any{
+    let bucket = [];
+    for(let i=0;i<localStorage.length;i++){
+      bucket[i]=localStorage.key(i)
+    }
+    return bucket
+  }
+
+  getLocalStorage(tokenName:string){
+    let getToken=JSON.parse(localStorage.getItem(tokenName)!);
+    if(getToken){
+      return getToken;
+    }else{
+      return null
+    }
+  }
+  isLocalStorageToken(tokenName:string){
+    const getalllocalstorage = this.getAllLocalStorage();
+    return getalllocalstorage.filter((val:string,i:number)=>{
+      return val === tokenName;
+    })
+  }
+  
+  setLocalStorage(tokenName:string,value:object){
+    try {
+      if(this.isLocalStorageToken(tokenName).length <= 0){
+        localStorage.setItem(tokenName,JSON.stringify(value));
+        console.log("local storage token successfully set")
+      }else{
+        console.log("Token key is already exist")
+      }
+    } catch (error) {
+        console.log('Something went wrong while set localstorage: '+error)
+    } 
+  }
+  deleteLocalStorage(){
+    localStorage.clear();
+  }
+}
+class randomIdGenerator{
+  private length:number = 0;
+  constructor(length:number){
+    this.length = length;
+  }
+  generateId(){
+   let len = "";
+   for(let i=0;i<this.length;i++){
+    len +=9
+   }
+  return Math.floor(Math.random() * parseInt(len));
   }
 }

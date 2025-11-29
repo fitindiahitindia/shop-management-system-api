@@ -1,11 +1,8 @@
 <div class="container-fluid border mt-2">
-  <!-- <pre>
-    {{orderDetails|json}}
-  </pre> -->
   <div class="row">
     <div class="col-md-6">
-      <h5 class="fw-medium mt-1 mb-1">Order: #{{orderDetails[0].orderId.id}}</h5>
-      <h6 class="mb-0">Customer Id: #3251</h6>
+      <h5 class="fw-medium mt-1 mb-1">Order: #{{orderDetails.orderId}}</h5>
+      <h6 class="mb-0">Order Date & Time: {{orderDetails.dateOrdered | slice:0:10}} & {{orderDetails.timeOrdered}}</h6>
     </div>
     <div class="col-md-6 align-items-end mt-2 mt-mb-0 d-md-flex justify-content-end">
       <div class="">
@@ -24,26 +21,31 @@
           <table class="table border table-responsive table-bordered">
             <thead>
               <tr>
-                <th scope="col" class="bg-light">S.No</th>
-                <th scope="col" class="bg-light">Pro Id</th>
-                <th scope="col" class="bg-light">Pro Name</th>
-                <th scope="col" class="bg-light">ctgy.</th>
-                <th scope="col" class="bg-light">Wgt.</th>
+                <th scope="col" class="bg-light">#</th>
+                <th scope="col" class="bg-light">P.Id</th>
+                <th scope="col" class="bg-light">P.Name</th>
+                <th scope="col" class="bg-light">ctg.</th>
                 <th scope="col" class="bg-light">Qty.</th>
-                <th scope="col" class="bg-light">Pay Met.</th>
                 <th scope="col" class="bg-light">Price</th>
+                <th scope="col" class="bg-light">Pay Met.</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let items of orderDetails[0].orders;let i = index">
-                <td>{{i+1}}</td>
-                <td>{{items.product.pId}}</td>
-                <td routerLink="../../../new-in/single-view/{{items.product._id}}" class="text-primary cp">{{items.product.name}}</td>
-                <td>{{items.product.type}}</td>
-                <td>{{items.product.quantity}}</td>
-                <td>{{items.quantity}}</td>
-                <td>COD</td>
-                <td>{{items.product.price}} &#8377;</td>
+              <tr *ngIf="orderDetailsLoader">
+                <td colspan="7">
+                  <div class="loader-wrapper">
+                    <mat-spinner class="small-spinner"></mat-spinner>
+                  </div>
+               </td> 
+              </tr>
+              <tr *ngFor="let item of orderDetails.orderItems; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.pId }}</td>
+                <td>{{ item.productName }}</td>
+                <td>{{ item.productCategory }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.productSellingPrice }}</td>
+                <td>{{ item.totalPrice }}</td>
               </tr>
             </tbody>
           </table>
@@ -52,7 +54,7 @@
 
       </div>
         </div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <div>
             <div class="heading mb-3 fs-5 fw-medium">Billing details</div>
                 <div class="content forPrint bg-white border d-flex align-items-start justify-content-start mb-2">
@@ -94,7 +96,7 @@
                   </div>
                 </div>
           </div>
-        </div>
+        </div> -->
       </div>
       
     </div>
@@ -107,7 +109,12 @@
             Summary
           </div>
           <div class="card-body position-relative">
-            <div class="row">
+            <div class="row" *ngIf="orderDetailsLoader">
+               <div class="loader-wrapper">
+                    <mat-spinner class="small-spinner"></mat-spinner>
+                  </div>
+            </div>
+            <div class="row" *ngIf="!orderDetailsLoader">
               <div class="col-8">
                 <div class="mb-1">Quantity:</div>
                 <div class="mb-1">Shipping Charge:</div>
@@ -115,21 +122,22 @@
                 <div class="fs-6 fw-bold mt-2">Total:</div>
               </div>
               <div class="col-4 text-end">
-                <div class="mt-1">{{totalquantityvar}}</div>
-                <div class="mt-1">{{orderDetails[0].orderSummary.shipping}} &#8377;</div>
-                <div class="mt-1">{{orderDetails[0].orderSummary.charge}} &#8377;</div>
-                <div class="fs-6 fw-bold mt-2">{{totalpricevar}} &#8377;</div>
+                <div class="mt-1">{{orderDetails.numberOfItems}}</div>
+                <div class="mt-1">xxx &#8377;</div>
+                <div class="mt-1">xxx &#8377;</div>
+                <div class="fs-6 fw-bold mt-2">{{orderDetails.totalOrderPrice}} &#8377;</div>
               </div>
             </div>
-            <div [ngClass]="!totalquantityvar ? 'd-block' :'d-none'" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+            
+            <!-- <div [ngClass]="!totalquantityvar ? 'd-block' :'d-none'" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
 
               <div class="mt-1"><img src="../../../assets/loader.gif" alt="" width="100px">
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
         </div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <div>
         <div class="card">
           <div class="card-header fs-5 fw-medium">
@@ -155,7 +163,7 @@
           </div>
         </div>
       </div>
-        </div>
+        </div> -->
       </div>
       
     </div>

@@ -15,16 +15,17 @@
                                 <div class="row">
                                     <div class="col-md-5 d-flex justify-content-center">
                                         <div class="profileImage text-capitalize fw-bold">
-                                            {{adminProfile.name|slice:0:1}}
+                                            {{adminProfile.ownerName|slice:0:1}}
                                         </div>
                                     </div>
                                     <div
                                         class="col-md-7 d-flex align-items-center justify-content-center justify-content-md-start">
                                         <div>
-                                            <div class="fw-medium fs-2 text-capitalize">{{adminProfile.name}}</div>
-                                            <div class="text-secondary">{{adminProfile.date|slice:0:10}}</div>
+                                            <div class="fw-medium fs-2 text-capitalize">{{adminProfile.ownerName}} / {{adminProfile.shopId}}</div>
+                                            <div class="text-secondary">{{adminProfile.shopName}}</div>
+                                            <div class="text-secondary">{{adminProfile.address}}</div>
                                             <div class="text-secondary">{{adminProfile.email}}</div>
-                                            <div class="text-secondary">9560915445</div>
+                                            <div class="text-secondary">{{adminProfile.mobileNo}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -74,8 +75,28 @@
                     </form>
                 </div>
             </div>
+            <div class="position-absolute top-0 start-0 h-100 w-100 bg-white text-center fs-2 d-flex align-items-center justify-content-center" style="margin-top: 3px;z-index: 99;" *ngIf="isLoader">
+      <div class="spinner"></div>
+
+      <style>
+      .spinner {
+         width: 11.2px;
+         height: 11.2px;
+         animation: spinner-z355kx 1s infinite linear;
+         border-radius: 11.2px;
+         box-shadow: 28px 0px 0 0 #0d6efd, 17.4px 21.8px 0 0 #0d6efd, -6.2px 27.2px 0 0 #0d6efd, -25.2px 12px 0 0 #0d6efd, -25.2px -12px 0 0 #0d6efd, -6.2px -27.2px 0 0 #0d6efd, 17.4px -21.8px 0 0 #0d6efd;
+      }
+      
+      @keyframes spinner-z355kx {
+         to {
+            transform: rotate(360deg);
+         }
+      }
+      </style>
+    </div>
         </div>
     </div>
+    
 </div>
 
 <div class="successLoader d-flex align-items-end justify-content-center">

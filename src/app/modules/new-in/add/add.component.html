@@ -3,27 +3,27 @@
     <div class="col-md-12 p-0  mt-2">
     <div class="card">
       <div class="card-header fs-5 fw-medium">
-        Create Product
+        Add Product
       </div>
       <div class="card-body py-1">
         <form action="" class="">
           <div class="row py-2  border bg-light">
             <div class="col-6">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control form-control-sm bg-white" name="name" [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.name">
+              <label class="form-label">Product Name *</label>
+              <input type="text" class="form-control form-control-sm bg-white" name="productName" [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.productName">
             </div>
             <div class="col-6">
-              <label class="form-label">Quantity/Weight/Size</label>
-              <input type="text" class="form-control form-control-sm bg-white" name="quality"
-                [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.quantity">
+              <label class="form-label">Product Quantity *</label>
+              <input type="number" min="1" class="form-control form-control-sm bg-white" name="productQuantity"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.productQuantity" required>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <label class="form-label">Description</label>
               <textarea type="text" class="form-control form-control-sm bg-white" name="description"
                 [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.description"></textarea>
-            </div>
+            </div> -->
             <div class="col-6">
-              <label class="form-label">Category</label>
+              <label class="form-label">Product Category *</label>
               <select name="" id="" class="form-select form-select-sm form-control-sm text-capitalize" #val (change)="getCategoryHtm(val)">
                 <option value="" selected disabled>Select category</option>
                 <option value="{{cat.categoryName}}" *ngFor="let cat of category;"><span class="text-capitalize">{{cat.categoryName}}</span></option>
@@ -35,19 +35,24 @@
                 <option value="pistachio">pistachio</option>
               </select> -->
             </div>
-            <div class="col-6">
+            <!-- <div class="col-6">
               <label class="form-label">Image URL</label>
               <input type="text" class="form-control form-control-sm bg-white" name="image" [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.image">
-            </div>
+            </div> -->
     
             <div class="col-6">
-              <label class="form-label">Price (&#8377;)</label>
-              <input type="number" min="0" class="form-control form-control-sm bg-white"  name="price" [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.price">
+              <label class="form-label">Pruchasing Price (&#8377;) *</label>
+              <input type="number" min="1" class="form-control form-control-sm bg-white"  name="productPurchasingPrice" [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.productPurchasingPrice">
             </div>
             <div class="col-6">
-              <label class="form-label">oldprice (&#8377;)</label>
-              <input type="number" min="0" class="form-control form-control-sm bg-white" name="oldPrice"
-                [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.oldPrice">
+              <label class="form-label">Selling Price (&#8377;) *</label>
+              <input type="number" min="1" class="form-control form-control-sm bg-white" name="productSellingPrice"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.productSellingPrice">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Pruchasing Date *</label>
+              <input type="date" class="form-control form-control-sm bg-white" name="productPurchasingDate"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="createPro.productPurchasingDate">
             </div>
             <div class="col-12 text-danger my-1" *ngIf="isError">
               ❌{{isError}}

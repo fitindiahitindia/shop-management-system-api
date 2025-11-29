@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-
+interface ADMINPASSWORD{
+  oldpassword:string,
+  newpassword:string,
+  confirmpassword:string
+}
 @Component({
   selector: 'app-admin-setting',
   templateUrl: './admin-setting.component.html',
@@ -8,20 +12,23 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class AdminSettingComponent {
  constructor(private _product:ProductService){}
-
+ isLoader:boolean = true;
  ispopupStatus:boolean=false;
  popupMsg="";
  isError:boolean=false ;
  isErrorMsg=""
- adminPassword = {
+ adminPassword:ADMINPASSWORD = {
   oldpassword:"",
   newpassword:"",
   confirmpassword:"",
 }
 adminProfile = {
-  name:"",
+  shopId:"",
+  shopName:"",
+  ownerName:"",
+  mobileNo:"",
+  address:"",
   email:"",
-  date:""
 }
 onChangePassword(psw:any){
   this.adminPassword.oldpassword = btoa(psw.oldpassword+`_${Date.now()}`);
@@ -48,9 +55,14 @@ onChangePassword(psw:any){
 }
 getAdminProfile(){
   this._product.get_AdminProfile().subscribe((res:any)=>{
-    this.adminProfile.name = res.data.name
+    this.adminProfile.shopId = res.data.shopId
+    this.adminProfile.shopName = res.data.shopName
+    this.adminProfile.ownerName = res.data.ownerName
+    this.adminProfile.mobileNo = res.data.mobileNo
+    this.adminProfile.address = res.data.address
     this.adminProfile.email = res.data.email
-    this.adminProfile.date = res.data.date
+    this.isLoader=false;
+
   })
 }
 

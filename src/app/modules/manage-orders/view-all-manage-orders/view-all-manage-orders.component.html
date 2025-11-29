@@ -1,4 +1,4 @@
-<div class="position-relative f_13 w-100 orderTable">
+<div class="position-relative f_14 w-100 orderTable">
   <!-- <pre>
     {{allOrders|json}}
   </pre> -->
@@ -6,40 +6,38 @@
     <table class="table mt-2 border table-responsive table-bordered">
       <thead>
         <tr>
-          <th scope="col" class="bg-light">S.No</th>
-          <th scope="col" class="bg-light">Order Id</th>
-          <th scope="col" class="bg-light">Product Name</th>
-          <th scope="col" class="bg-light">city/village</th>
-          <th scope="col" class="bg-light">Date & Time</th>
-          <th scope="col" class="bg-light">zip</th>
-          <th scope="col" class="bg-light">country</th>
-          <th scope="col" class="bg-light">status</th>
-          <th scope="col" class="bg-light">Action</th>
+          <th scope="col" class="bg-light">#</th>
+          <th scope="col" class="bg-light">Id</th>
+          <!-- <th scope="col" class="bg-light">Product Name</th> -->
+          <th scope="col" class="bg-light">Qty</th>
+          <th scope="col" class="bg-light">S.Price</th>
+          <th scope="col" class="bg-light">D & T</th>
+          <th scope="col" class="bg-light">Act</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of allOrders;let i=index">
-          <td>{{i+1}}</td>
-          <td>{{item._id}}</td>
-          <td routerLink="../new-in/single-view/{{item.orderItems[0].product._id}}" class="text-primary cp">{{item.orderItems[0].product.name}}</td>
-          <td>{{item.city}}</td>
-          <td>{{item.dateOrdered | slice:0:10}} [{{item.dateOrdered | slice:11:16}}]</td>
-          <td>{{item.zip}}</td>
-          <td>{{item.country}}</td>
-          <td><span ngClass="{{item.status}}" [ngClass]="item.status=='out of delivery' ? 'out-of-delivery' : item.status">{{item.status}}</span></td>
-          <!--<td>{{item.quantity}}</td>
-          <td>{{item.type}}</td>
-          <td>{{item.price}}</td>
-          <td>{{item.oldPrice}}</td> -->
-          <td>
-            <span class="cp m-1 bg-info text-white p-1 f_13" routerLink="view/{{item._id}}">View</span>
-            <!-- <span class="cp m-1 bg-success p-1 text-white f_14" routerLink="edit/{{item._id}}">Edit</span> -->
-            <!-- <span class="cp m-1 bg-danger text-white p-1 f_14" (click)="removeProduct(item._id)">Remove</span> -->
+          <td>{{ ((currentPage - 1) * pageSize) + (i + 1) }}</td>
+          <td>{{item.orderId}}</td>
+          <td>{{item.numberOfItems}}</td>
+          <td>{{item.totalOrderPrice}} &#8377;</td>
+          <td>{{item.dateOrdered | slice:0:10}} <b>&</b> {{item.timeOrdered}}</td>
+          <td class="d-flex align-content-between">
+             <button class="btn btn-info btn-sm p-1 my-0 py-0" routerLink="view/{{item._id}}">View</button>
+             <button class="btn btn-danger btn-sm p-1 my-0 py-0 mx-1" (click)="removeOrder(item._id,item.productId,item.productQuantity)">Remove</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <mat-paginator [length]="totalRecords"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+              (page)="onPageChange($event)"
+              >
+</mat-paginator>
     </div>
+
     <div class="position-absolute top-0 start-0 h-100 w-100 bg-white text-center fs-2 d-flex align-items-center justify-content-center" style="margin-top: 3px;" *ngIf="isLoader">
       <div class="spinner"></div>
 
@@ -49,7 +47,7 @@
          height: 11.2px;
          animation: spinner-z355kx 1s infinite linear;
          border-radius: 11.2px;
-         box-shadow: 28px 0px 0 0 #474bff, 17.4px 21.8px 0 0 #474bff, -6.2px 27.2px 0 0 #474bff, -25.2px 12px 0 0 #474bff, -25.2px -12px 0 0 #474bff, -6.2px -27.2px 0 0 #474bff, 17.4px -21.8px 0 0 #474bff;
+         box-shadow: 28px 0px 0 0 #0d6efd, 17.4px 21.8px 0 0 #0d6efd, -6.2px 27.2px 0 0 #0d6efd, -25.2px 12px 0 0 #0d6efd, -25.2px -12px 0 0 #0d6efd, -6.2px -27.2px 0 0 #0d6efd, 17.4px -21.8px 0 0 #0d6efd;
       }
       
       @keyframes spinner-z355kx {

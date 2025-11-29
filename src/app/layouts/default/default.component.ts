@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { DrawerService } from 'src/app/services/drawer.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -8,12 +10,11 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./default.component.css']
 })
 export class DefaultComponent {
-  constructor(private _product:ProductService,private Router:Router){
+  @ViewChild('drawer') drawer!: MatDrawer;
+  headerTitle = window.innerWidth > 768 ? "Shop Management System" : "SMS";
+  constructor(private _product:ProductService,private Router:Router,private drawerService: DrawerService){
   }
   sideBarOpen=true;
-  isDark(){
-    document.body.classList.add("abcd")
-  }
   async logout(){
    if(this.Router.url.slice(1,6) == "user"){
     await this._product.removeUserLoginToken("userlogintoken");
@@ -42,6 +43,11 @@ export class DefaultComponent {
       
     }
   }
+  
+  ngAfterViewInit() {
+  this.drawerService.setDrawer(this.drawer);
+  }
+
   ngOnInit(){
     this.sidebar();
   }

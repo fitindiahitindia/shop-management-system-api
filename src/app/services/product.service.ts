@@ -1,18 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable,EventEmitter } from '@angular/core';
 import { contact,productResponse, review } from '../data-type';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { Firestore,collection} from '@angular/fire/firestore';
-import { collectionData } from '@angular/fire/firestore';
-import { addDoc, deleteDoc, doc } from '@firebase/firestore';
+import { login } from '../interface/login.interface';
+import { Country } from '../interface/Country.interface';
+import { OrderCheckout } from '../interface/OrderCheckout.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor(private _http:HttpClient,private router:Router, private fs:Firestore) { }
+  constructor(private _http:HttpClient,private router:Router) { }
   
   isUserLoggedIn = new BehaviorSubject<boolean>(false);
   isAdminLoggedIn = new BehaviorSubject<boolean>(false);
@@ -21,49 +21,70 @@ export class ProductService {
   adminLoginToken = new EventEmitter<string>();
   myOrderData:any[] = [];
   myOrderPayment = new EventEmitter<any[]>();
-  productInCheckout:any[]=[];
+  productInCheckout:OrderCheckout[]=[];
   // URL = "http://192.168.247.77:5000/api/v1";
   // URL = "http://192.168.29.108:5000/api/v1";
-  // URL = "http://localhost:5000/api/v1";
+  // URL = "http://192.168.1.9:2020/api/v1";
+     URL = "http://localhost:2020/api/v1";
   // URL="https://ecommerce-api-topaz.vercel.app/api/v1"
-     URL="https://ecommerce-api-weld.vercel.app/api/v1"
+  // URL="https://ecommerce-api-weld.vercel.app/api/v1"
   
+
+  getProducts(page: number, limit: number) {
+  const adminlogintoken=this.getAdminLoginToken();
+  const headers = {"Authorization":"Bearer "+adminlogintoken}
+  const params = new HttpParams()
+    .set('page', page)
+    .set('limit', limit);
+  return this._http.get(this.URL+"/product/productViewsPagination", { params, headers });
+}
+
   get_product():Observable<any>{
    const adminlogintoken=this.getAdminLoginToken();
    const headers = {"Authorization":"Bearer "+adminlogintoken}
-   const getProduct= this._http.get<productResponse>(this.URL+"/product",{headers});
+   const getProduct= this._http.get<productResponse>(this.URL+"/product/productViews",{headers});
    return getProduct
   }
   get_SingleProduct(id:any){
-    return this._http.get(this.URL+"/product/"+id);
+    return this._http.get(this.URL+"/product/productView/"+id);
    }
   search_product(query:string):Observable<any>{
     
     const searchProduct= this._http.get<productResponse>(this.URL+`/product?q=${query}`);
      return searchProduct
    } 
-  register_user(credential:object){
-    return this._http.post(this.URL+"/userAuth/register",credential)
-  } 
-  login_user(credential:object){
+  
+  login_user(credential:login){
     return this._http.post(this.URL+"/userAuth/login",credential)
   }
  login_admin(credential:object){
-    return this._http.post(this.URL+"/adminAuth/login",credential)
+    return this._http.post(this.URL+"/admin/login",credential)
+  }
+register_admin(credential:object){
+    return this._http.post(this.URL+"/admin/register",credential)
   }
   createProduct(data:any){
-    const userlogintoken=this.getAdminLoginToken();
-    const headers = {"Authorization":"Bearer "+userlogintoken}
-    return this._http.post(this.URL+"/product",data,{headers});
+    const adminlogintoken=this.getAdminLoginToken();
+    const headers = {"Authorization":"Bearer "+adminlogintoken}
+    return this._http.post(this.URL+"/product/productCreate",data,{headers});
   }
   removeSingleProduct(id:any){
-    return this._http.delete(this.URL+"/product/"+id);
+    const adminlogintoken=this.getAdminLoginToken();
+    const headers = {"Authorization":"Bearer "+adminlogintoken}
+    return this._http.delete(this.URL+"/product/productDelete/"+id,{headers});
   }
   update_SingleProduct(id:any,data:any){
-    return this._http.put(this.URL+"/product/"+id,data);
+    return this._http.put(this.URL+"/product/productUpdate/"+id,data);
   }
   create_Order(data:object){
-    return this._http.post(this.URL+"/order",data);
+     const adminlogintoken=this.getAdminLoginToken();
+    const headers = {"Authorization":"Bearer "+adminlogintoken}
+    return this._http.post(this.URL+"/order/orderCreate",data,{headers});
+  }
+  remove_Order(id:string){
+    const adminlogintoken=this.getAdminLoginToken();
+    const headers = {"Authorization":"Bearer "+adminlogintoken}
+    return this._http.delete(this.URL+"/order/orderDelete/"+id);
   }
   get_profile(){
     const userlogintoken=this.getUserLoginToken();
@@ -87,9 +108,9 @@ export class ProductService {
     return this._http.put(this.URL+"/userAuth/status/",data,{headers});
   }
   get_UserOrder(orderId:string){
-    const userlogintoken=this.getUserLoginToken();
-    const headers = {"Authorization":"Bearer "+userlogintoken}
-      return this._http.get(this.URL+"/order/"+orderId,{headers})
+    const adminlogintoken=this.getAdminLoginToken();
+    const headers = {"Authorization":"Bearer "+adminlogintoken}
+    return this._http.get(this.URL+"/order/orderById/"+orderId,{headers})
   }
   set_OrderStatus(orderId:string,status:object){
     return this._http.post(this.URL+"/orderStatus/"+orderId,status);
@@ -98,16 +119,16 @@ export class ProductService {
     return this._http.get(this.URL+"/orderStatus/"+orderId);
   }
   
-  get_AllUserOrders(){
-    return this._http.get(this.URL+"/order");
-  }
-  get_UserOrders(){
-    const userlogintoken=this.getUserLoginToken();
+  get_AllUserOrders(page: number, limit: number){
+     const userlogintoken=this.getAdminLoginToken();
     const headers = {"Authorization":"Bearer "+userlogintoken}
-    return this._http.get(this.URL+"/user/orders/",{headers});
+    const params = new HttpParams()
+    .set('page', page)
+    .set('limit', limit);
+    return this._http.get(this.URL+"/order/orderViews",{params,headers});
   }
   get_Country(){
-    return this._http.get(this.URL+"/country");
+    return this._http.get<Country>(this.URL+"/country");
   }
   get_State(country:string){
     const countryObj = {
@@ -117,24 +138,25 @@ export class ProductService {
   }
   create_Category(categroy:any){
     const adminlogintoken=this.getAdminLoginToken();
+    console.log(adminlogintoken)
     const headers = {"Authorization":"Bearer "+adminlogintoken}
-    return this._http.post(this.URL+"/category",categroy,{headers});
+    return this._http.post(this.URL+"/category/categoryCreate",categroy,{headers});
   }
   upload(file:any){
-    return this._http.post(this.URL+"/upload",file)
+    const adminlogintoken=this.getAdminLoginToken();
+    const headers = {"Authorization":"Bearer "+adminlogintoken}
+    return this._http.post(this.URL+"/category",file,{headers})
   }
   get_Categroy(){
     const adminlogintoken=this.getAdminLoginToken();
     const headers = {"Authorization":"Bearer "+adminlogintoken}
-    return this._http.get(this.URL+"/category",{headers});
+    return this._http.get(this.URL+"/category/categoryViews",{headers});
   }
   remove_Category(id:any){
-    return this._http.delete(this.URL+"/category"+"/"+id);
+    return this._http.delete(this.URL+"/category/categoryDelete"+"/"+id);
   }
   edit_Category(id:any,category:any){
-    console.log("id is:"+id)
-    console.log("category is:"+category)
-    return this._http.put(this.URL+"/category/"+id,category);
+    return this._http.put(this.URL+"/category/categoryUpdate/"+id,category);
   }
   user_Verify(){
     const userlogintoken=this.getUserLoginToken();
@@ -144,19 +166,19 @@ export class ProductService {
   get_AdminProfile():any{
       const adminlogintoken=this.getAdminLoginToken();
       const headers = {"Authorization":"Bearer "+adminlogintoken}
-        return this._http.get(this.URL+"/adminAuth/adminProfile",{headers})
+        return this._http.get(this.URL+"/admin/profile",{headers})
     
   }
   update_AdminPsw(data:any){
    
     const adminlogintoken=this.getAdminLoginToken();
     const headers = {"Authorization":"Bearer "+adminlogintoken}
-      return this._http.post(this.URL+"/adminAuth/adminPassword",data,{headers})
+      return this._http.post(this.URL+"/admin/adminPassword",data,{headers})
   }
   getAdminDashAnalsis(){
     const adminlogintoken=this.getAdminLoginToken();
     const headers = {"Authorization":"Bearer "+adminlogintoken}
-    return this._http.get(this.URL+"/adminDashboardAnalysis",{headers})
+    return this._http.get(this.URL+"/analysic",{headers})
   }
   create_blog(data:any){
     return this._http.post(this.URL+"/blog/create",data)
@@ -300,7 +322,7 @@ export class ProductService {
     return this.getLocalCart().length;
   }
  
-  removeCart(id: any) {
+  removeCart(id:string) {
     if (this.getLocalCart()) {
       let items:any = this.getLocalCart();
       items = items.filter((item: any, index:any) => {
@@ -312,7 +334,6 @@ export class ProductService {
   }
   
   updateQuantityCart(id:string,quantity:number){
-    console.log(id + "+++++++++++" + quantity)
     var lcart=[]
     if(this.getLocalCart()){
       let items:any = this.getLocalCart();
@@ -328,7 +349,6 @@ export class ProductService {
         }
         return item;
       });
-      console.log(updatedData)
     }
   }
 
@@ -359,24 +379,5 @@ export class ProductService {
   setLocalUserDetail(itemName:string,value:any){
     localStorage.setItem(itemName,JSON.stringify(value));
   }
-  
-
-  //firebase
-
-  getNotes(){
-    let notesCollection = collection(this.fs,'notes');
-    return collectionData(notesCollection,{idField:'id'});
-  }
-
-  addNote(desc:string){
-    let data = {description:desc};
-    let notesCollection = collection(this.fs,'notes');
-    return addDoc(notesCollection,data);
-  }
-  
-  deleteNote(id:string){
-    let docRef= doc(this.fs,'notes/'+id);
-    return deleteDoc(docRef);
-  }
- 
+   
 }

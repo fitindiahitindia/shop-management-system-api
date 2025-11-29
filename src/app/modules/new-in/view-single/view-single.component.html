@@ -11,38 +11,31 @@
             <div class="row py-2  border bg-light">
               <div class="col-6">
                 <label class="form-label">Name</label>
-                <input type="text" class="form-control form-control-sm bg-white" name="name" readonly [(ngModel)]="viewPro.name">
+                <input type="text" class="form-control form-control-sm bg-white" name="name" readonly [(ngModel)]="viewPro.productName">
               </div>
               <div class="col-6">
                 <label class="form-label">Quantity</label>
-                <input type="text" class="form-control form-control-sm bg-white" name="quality"
-                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.quantity">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Description</label>
-                <textarea type="text" class="form-control form-control-sm bg-white" name="description"
-                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.description"></textarea>
+                <input type="text" class="form-control form-control-sm bg-white" name="productQuantity"
+                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.productQuantity">
               </div>
               <div class="col-6">
-                <label class="form-label">Type</label>
-                <!-- <select name="" id="" class="form-select form-control-sm">
-                  <option value="" *ngFor="let item of dataFilter;"><span class="text-capitalize">{{item}}</span></option>
-                </select> -->
-                <input type="text" class="form-control form-control-sm bg-white"  name="price" [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.type">
+                <label class="form-label">Category</label>
+                <input readonly type="text" min="0" class="form-control form-control-sm bg-white" name="productCategory"
+                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.productCategory">
               </div>
               <div class="col-6">
-                <label class="form-label">Image</label>
-                <input type="text" class="form-control form-control-sm bg-white" name="image" [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.image">
-              </div>
-      
-              <div class="col-6">
-                <label class="form-label">Price</label>
-                <input type="number" min="0" class="form-control form-control-sm bg-white"  name="price" [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.price">
+                <label class="form-label">Purchasing Price</label>
+                <input readonly type="number" min="0" class="form-control form-control-sm bg-white"  name="productPurchasingPrice" [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.productPurchasingPrice">
               </div>
               <div class="col-6">
-                <label class="form-label">oldprice</label>
-                <input readonly type="number" min="0" class="form-control form-control-sm bg-white" name="oldPrice"
-                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.oldPrice">
+                <label class="form-label">Selling Price</label>
+                <input readonly type="number" min="0" class="form-control form-control-sm bg-white" name="productSellingPrice"
+                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.productSellingPrice">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Purchasing Date</label>
+                <input readonly type="text" min="0" class="form-control form-control-sm bg-white" name="productPurchasingDate"
+                  [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="viewPro.productPurchasingDate">
               </div>
              
               <div style="margin-top: 8px;">
@@ -57,6 +50,10 @@
       </div>
     </div>
   
+    
   </div>
+
+  
+
   
   

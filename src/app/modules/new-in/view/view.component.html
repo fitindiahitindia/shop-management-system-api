@@ -5,33 +5,59 @@
     <tr>
       <th scope="col" class="bg-light">S.No</th>
       <th scope="col" class="bg-light">Product Id</th>
-      <th scope="col" class="bg-light">Name</th>
-      <th scope="col" class="bg-light">Description</th>
+      <th scope="col" class="bg-light">Product Name</th>
       <th scope="col" class="bg-light">Quantity</th>
-      <th scope="col" class="bg-light">Type</th>
-      <th scope="col" class="bg-light">Price</th>
-      <th scope="col" class="bg-light">OldPrice</th>
+      <th scope="col" class="bg-light">Selling Price</th>
+      <th scope="col" class="bg-light">Product Category</th>
+      <th scope="col" class="bg-light">Pruchasing Date</th>
       <th scope="col" class="bg-light">Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of allProduct;let i=index">
-      <th>{{i+1}}</th>
+    <tr *ngFor="let item of products;let i=index">
+      <th>{{ ((currentPage - 1) * pageSize) + (i + 1) }}</th>
       <td>{{item.pId}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.description | slice:0:35}}...</td>
-      <td>{{item.quantity}}</td>
-      <td>{{item.type}}</td>
-      <td>{{item.price}}</td>
-      <td>{{item.oldPrice}}</td>
+      <td>{{item.productName}}</td>
+      <td>{{item.productQuantity}}</td>
+      <td>{{item.productSellingPrice}}</td>
+      <td>{{item.productCategory}}</td>
+      <td>{{item.productPurchasingDate}}</td>
       <td>
-        <span class="cp m-1 bg-info text-white p-1 f_14" routerLink="single-view/{{item._id}}">View</span>
-        <span class="cp m-1 bg-success p-1 text-white f_14" routerLink="edit/{{item._id}}">Edit</span>
-        <span class="cp m-1 bg-danger text-white p-1 f_14" (click)="removeProduct(item._id)">Remove</span>
+        <button class="btn btn-info btn-sm p-1 my-0 py-0" routerLink="single-view/{{item._id}}">View</button>
+        <button class="btn btn-success btn-sm p-1 mx-2 my-0 py-0" routerLink="edit/{{item._id}}">Edit</button>
+        <button class="btn btn-danger btn-sm p-1 my-0 py-0" (click)="removeProduct(item._id)">Remove</button>     
       </td>
     </tr>
   </tbody>
 </table>
+<mat-paginator [length]="totalRecords"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+              (page)="onPageChange($event)"
+              >
+</mat-paginator>
+
 </div>
-<div class="position-absolute top-0 start-0 h-100 w-100 bg-white text-center fs-2 d-flex align-items-center justify-content-center" style="margin-top: 3px;" *ngIf="isLoader">Loading...</div>
+ 
+<!-- <div class="position-absolute top-0 start-0 h-100 w-100 bg-white text-center fs-2 d-flex align-items-center justify-content-center" style="margin-top: 3px;" *ngIf="isLoader">Loading...</div> -->
+ <div class="position-absolute top-0 start-0 h-100 w-100 bg-white text-center fs-2 d-flex align-items-center justify-content-center" style="margin-top: 3px;" *ngIf="isLoader">
+      <div class="spinner"></div>
+
+      <style>
+      .spinner {
+         width: 11.2px;
+         height: 11.2px;
+         animation: spinner-z355kx 1s infinite linear;
+         border-radius: 11.2px;
+         box-shadow: 28px 0px 0 0 #0d6efd, 17.4px 21.8px 0 0 #0d6efd, -6.2px 27.2px 0 0 #0d6efd, -25.2px 12px 0 0 #0d6efd, -25.2px -12px 0 0 #0d6efd, -6.2px -27.2px 0 0 #0d6efd, 17.4px -21.8px 0 0 #0d6efd;
+      }
+      
+      @keyframes spinner-z355kx {
+         to {
+            transform: rotate(360deg);
+         }
+      }
+      </style>
+    </div>
 </div>
