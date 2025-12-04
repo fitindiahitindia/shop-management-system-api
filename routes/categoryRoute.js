@@ -10,4 +10,4 @@ categoryRouter.get("/categoryViews",isAuthenticatedAdmin(Admin),categoryViews);
 categoryRouter.put("/categoryUpdate/:id",categoryUpdate);
 categoryRouter.delete("/categoryDelete/:id",categoryDelete);
 
-module.exports = categoryRouter;
+export default  categoryRouter;

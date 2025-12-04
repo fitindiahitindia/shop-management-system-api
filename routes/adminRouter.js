@@ -42,4 +42,4 @@ adminRouter.post("/adminPassword",isAuthenticatedAdmin(Admin),updateAdminPasswor
 adminRouter.delete("/:id", deleteAdminCtrl);
 
 
-module.exports = adminRouter;
+export default adminRouter;

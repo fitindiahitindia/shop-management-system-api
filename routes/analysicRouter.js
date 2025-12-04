@@ -7,4 +7,4 @@ const analysicRouter = express.Router();
 
 analysicRouter.get("/",isAuthenticatedAdmin(Admin),isAdmin,getDashboardAnalysic)
 
-module.exports = analysicRouter
+export default analysicRouter

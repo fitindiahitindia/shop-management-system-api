@@ -10,4 +10,4 @@ orderRouter.get("/orderViews",isAuthenticatedAdmin(Admin),getOrder);
 orderRouter.get("/orderById/:id",isAuthenticatedAdmin(Admin),getOrderById);
 orderRouter.delete("/orderDelete/:id",deleteOrder);
 
-module.exports = orderRouter;
+export default orderRouter;

@@ -16,4 +16,4 @@ productRouter.put('/productUpdate/:id',updateProductById);
 productRouter.delete('/productDelete/:id',isAuthenticatedAdmin(Admin),isAdmin,deleteProduct);
 productRouter.delete('/productAllDelete',isAuthenticatedAdmin(Admin),isAdmin,deleteAllProduct);
 
-module.exports = productRouter;
+export default productRouter;

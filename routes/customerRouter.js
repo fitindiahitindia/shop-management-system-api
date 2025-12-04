@@ -8,4 +8,4 @@ const customerRouter = express.Router();
 customerRouter.get("/customerViews",isAuthenticatedAdmin(Admin),customerViews);
 customerRouter.get("/customerViewsByPag",isAuthenticatedAdmin(Admin),getCustomerByPagination);
 
-module.exports = customerRouter;
+export default customerRouter;
