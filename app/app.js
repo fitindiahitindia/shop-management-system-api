@@ -14,12 +14,13 @@ const axios = require("axios");
 const customerRouter = require("../routes/customerRouter");
 
 //Middlewares
-app.use(express.json()); //pass incoming json data
 app.use(cors({
   origin: "*",             
   methods: "GET,POST,PUT,DELETE,PATCH",
   allowedHeaders: "Content-Type, Authorization"
 }));
+
+app.use(express.json()); //pass incoming json data
 
 const path = require("path")
 app.get("/",(req,res)=>{
