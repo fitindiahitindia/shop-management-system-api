@@ -1,6 +1,6 @@
 const AysncHandler = require("express-async-handler");
 const reader = require('xlsx')
-const file = reader.readFile('assets/amit-shop.xlsx')
+// const file = reader.readFile('assets/amit-shop.xlsx')
 const Product = require("./../model/Product");
 const Admin = require("../model/Admin");
 const Order = require("../model/Order");
@@ -186,58 +186,58 @@ exports.deleteAllProduct = AysncHandler(async(req,res)=>{
         })
 })
 
-exports.createProductsInsideManuallyBulk= AysncHandler(async(req,res)=>{
+// exports.createProductsInsideManuallyBulk= AysncHandler(async(req,res)=>{
 
-let data = []
+// let data = []
 
-const sheets = file.SheetNames
+// const sheets = file.SheetNames
 
-for(let i = 0; i < sheets.length; i++)
-{
-   const temp = reader.utils.sheet_to_json(
-        file.Sheets[file.SheetNames[i]])
-   temp.forEach((res) => {
-      const dat = {
-        productName : res['Product Name'],
-        productCategory : res['Category'],
-        productQuantity : res['Quantity'],
-        productPurchasingPrice : res['Buying Price']===undefined ?Number(1):Number(res['Buying Price']),
-        productPurchasingDate : res['Buying Date'],
-        productSellingPrice:Number(res['Selling Price']) < 10 ? 10 : (res['Buying Price']* 50) / 100 + res['Buying Price'],
-      }
-      data.push(dat)
-   })
-}
+// for(let i = 0; i < sheets.length; i++)
+// {
+//    const temp = reader.utils.sheet_to_json(
+//         file.Sheets[file.SheetNames[i]])
+//    temp.forEach((res) => {
+//       const dat = {
+//         productName : res['Product Name'],
+//         productCategory : res['Category'],
+//         productQuantity : res['Quantity'],
+//         productPurchasingPrice : res['Buying Price']===undefined ?Number(1):Number(res['Buying Price']),
+//         productPurchasingDate : res['Buying Date'],
+//         productSellingPrice:Number(res['Selling Price']) < 10 ? 10 : (res['Buying Price']* 50) / 100 + res['Buying Price'],
+//       }
+//       data.push(dat)
+//    })
+// }
 
 // Printing data
-console.log(data)
+// console.log(data)
     
 
-const axios = require("axios");
+// const axios = require("axios");
 
-async function fetchProducts(){
-for (const item of data) {
-            await callApi(item);
-        }
-      }
-      fetchProducts();
-async function callApi(item) {
-  try {
-        const response = await axios.post("http://localhost:2020/api/v1/product/productCreate",
-         item
-        , {
-            headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTJiOTYzZWEzZjIwOThhZTdmOGIyOSIsImlhdCI6MTc2Mzc5MjI1NywiZXhwIjoxNzY0MjI0MjU3fQ.Q2-5-fZZUYb1rYUidSCC93HVCtbmJWe6-W1D7GsB98g",
-                "Content-Type": "application/json"
-            }
-        });
+// async function fetchProducts(){
+// for (const item of data) {
+//             await callApi(item);
+//         }
+//       }
+//       fetchProducts();
+// async function callApi(item) {
+//   try {
+//         const response = await axios.post("http://localhost:2020/api/v1/product/productCreate",
+//          item
+//         , {
+//             headers: {
+//                 "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTJiOTYzZWEzZjIwOThhZTdmOGIyOSIsImlhdCI6MTc2Mzc5MjI1NywiZXhwIjoxNzY0MjI0MjU3fQ.Q2-5-fZZUYb1rYUidSCC93HVCtbmJWe6-W1D7GsB98g",
+//                 "Content-Type": "application/json"
+//             }
+//         });
 
-        console.log(response.data);
-    } catch (err) {
-        console.log(err);
-    }
-}
+//         console.log(response.data);
+//     } catch (err) {
+//         console.log(err);
+//     }
+// }
 
-})
+// })
 
 
