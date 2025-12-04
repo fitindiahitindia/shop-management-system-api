@@ -1,14 +1,14 @@
 const express = require('express');
 const isLogin = require('../middlewares/isLogin');
 const isAdmin = require('../middlewares/isAdmin');
-const { createProduct, getProduct, getProductById, deleteProduct, updateProductById, deleteAllProduct, createProductsInsideManuallyBulk, getProductPagination } = require('../controller/productCtrl');
+const { createProduct, getProduct, getProductById, deleteProduct, updateProductById, deleteAllProduct, getProductPagination } = require('../controller/productCtrl');
 const isAuthenticatedAdmin = require('../middlewares/isAuthenticatedAdmin');
 const Admin = require('../model/Admin');
 const productRouter = express.Router();
 
 
 productRouter.post('/productCreate',isAuthenticatedAdmin(Admin),createProduct);
-productRouter.post('/productCreateBulk',createProductsInsideManuallyBulk);
+// productRouter.post('/productCreateBulk',createProductsInsideManuallyBulk);
 productRouter.get('/productViews',isAuthenticatedAdmin(Admin), getProduct);
 productRouter.get('/productViewsPagination',isAuthenticatedAdmin(Admin), getProductPagination);
 productRouter.get('/productView/:id',getProductById);
