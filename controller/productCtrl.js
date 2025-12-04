@@ -1,7 +1,7 @@
 const AysncHandler = require("express-async-handler");
-const reader = require('xlsx')
+// const reader = require('xlsx')
 // const file = reader.readFile('assets/amit-shop.xlsx')
-const Product = require("./../model/Product");
+const Product = require("../model/Product");
 const Admin = require("../model/Admin");
 const Order = require("../model/Order");
 
