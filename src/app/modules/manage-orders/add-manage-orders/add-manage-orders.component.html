@@ -9,6 +9,42 @@
           Add Order
         </div>
         <div class="card-body py-1">
+          <div class="row border bg-light py-2">
+            <div class="col-12">
+              <div class="autocomplete-container">
+               <label class="form-label">Search Customer</label>
+              <input
+                #inputField
+                type="text"
+                [(ngModel)]="searchText"
+                (input)="onInputChange()"
+                (keydown)="onKeyDown($event)"
+                placeholder="Find your customer..."  class="form-control form-control-sm"
+              />
+
+              <ul *ngIf="showDropdown" class="autocomplete-list">
+                <li
+                  *ngFor="let option of filteredOptions; let i = index"
+                  [class.active]="i === activeIndex"
+                  (click)="selectOption(option)"
+                >
+                  {{option}}
+                </li>
+              </ul>
+            </div>
+
+            </div>
+             <div class="col-6">
+                <label class="form-label">Customer Name</label>
+                <input type="text" name="customerName" class="form-control form-control-sm"
+                  [(ngModel)]="customerName" />
+              </div>
+               <div class="col-6">
+                <label class="form-label">Mobile No</label>
+                <input type="number" min="5555555555" max="9999999999" name="mobileNo" class="form-control form-control-sm"
+                  [(ngModel)]="mobileNo" />
+              </div>
+          </div>
           <form action="" class="" #orderForm="ngForm">
             <div class="row py-2  border bg-light">
               <div class="col-xl-12 col-lg-12 col-12 mb-4">
@@ -29,7 +65,7 @@
                   [ngModelOptions]="{standalone: true}" [(ngModel)]="storPro.getproductQuantity">
               </div>
               <div class="col-xl-6 col-lg-6 col-6">
-                <label class="form-label">Selling Price</label>
+                <label class="form-label">Selling Price (per Item) (&#8377;)</label>
                 <input readonly style="font-weight: bold;" type="number" class="form-control form-control-sm bg-light"
                   name="getproductSellingPrice" [ngModelOptions]="{standalone: true}"
                   [(ngModel)]="storPro.getproductSellingPrice">
@@ -37,20 +73,21 @@
               <div class="col-6">
                 <label class="form-label">Quantity *</label>
                 <input type="number" name="productQuantity" min="1" class="form-control form-control-sm"
-                  [(ngModel)]="createPro.productQuantity" required />
+                  [(ngModel)]="createPro.productQuantity" required/>
                 <div class="text-danger" *ngIf="orderForm.submitted && !createPro.productQuantity">
                   Quantity required!
                 </div>
               </div>
 
               <div class="col-6">
-                <label class="form-label">Selling Price (&#8377;) *</label>
+                <label class="form-label">Selling Price (per Item) (&#8377;) *</label>
                 <input type="number" name="productSellingPrice" min="1" class="form-control form-control-sm"
-                  [(ngModel)]="createPro.productSellingPrice" required />
+                  [(ngModel)]="createPro.productSellingPrice" required/>
                 <div class="text-danger" *ngIf="orderForm.submitted && !createPro.productSellingPrice">
                   Selling price required!
                 </div>
               </div>
+              
 
               <div class="col-12 text-danger my-1" *ngIf="isError">
                 ❌{{isError}}
@@ -67,10 +104,15 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 p-0">
+    <div class="col-md-6 p-0  mt-2">
+       <div class="card">
+        <div class="card-header fs-5 fw-medium">
+          Add Cart
+        </div>
+        <div class="card-body p-1">
       <div class="position-relative f_14 w-100">
         <div class="table-responsive">
-          <table class="table mt-2 border table-responsive table-bordered">
+          <table class="table border mb-0 table-responsive table-bordered">
             <thead>
               <tr>
                 <th scope="col" class="bg-light">S.No</th>
@@ -111,6 +153,7 @@
     </div>
   </div>
 
+</div>
 </div>
 
 

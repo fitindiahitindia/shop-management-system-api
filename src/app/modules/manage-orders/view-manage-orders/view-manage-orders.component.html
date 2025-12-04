@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-6 align-items-end mt-2 mt-mb-0 d-md-flex justify-content-end">
       <div class="">
-        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-printer"></i> Print</button>
+        <button class="btn btn-sm btn-outline-primary me-1" (click)="openBillDialog()"><i class="bi bi-printer"></i> Print Preview</button>
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@
 
       </div>
         </div>
-        <!-- <div class="col-md-12">
+        <div class="col-md-12">
           <div>
             <div class="heading mb-3 fs-5 fw-medium">Billing details</div>
                 <div class="content forPrint bg-white border d-flex align-items-start justify-content-start mb-2">
@@ -62,11 +62,11 @@
                   <div class="content ">
                     <div class="name  fw-medium text-dark f_14 p-1">Customer</div>
                     <div class="name  f_13 text-primary p-1">
-                      <a routerLink="../../../manage-users" class="text-decoration-none">{{orderDetails[0].user.name}}</a>
+                      <a routerLink="../../../manage-users" class="text-decoration-none">{{orderDetails.customerName}}</a>
                     </div>
                   </div>
                 </div>
-                <div class="content forPrint bg-white border  d-flex align-items-start justify-content-start mb-2">
+                <!-- <div class="content forPrint bg-white border  d-flex align-items-start justify-content-start mb-2">
                   <div class="icon  p-1"><i class="bi bi-envelope"></i></div>
                   <div class="content ">
                     <div class="name  fw-medium text-dark f_14 p-1">Email</div>
@@ -74,17 +74,17 @@
                       <a href="mailto:birender.fea99@gmail.com" class="text-decoration-none">{{orderDetails[0].user.email}}</a>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="content forPrint bg-white border d-flex align-items-start justify-content-start mb-2">
                   <div class="icon  p-1"><i class="bi bi-telephone"></i></div>
                   <div class="content ">
-                    <div class="name  fw-medium text-dark f_14 p-1">Phone</div>
+                    <div class="name  fw-medium text-dark f_14 p-1">Mobile No</div>
                     <div class="name  f_13 text-primary p-1">
-                      <a href="tel:9560915445" class="text-decoration-none">{{orderDetails[0].billingDetails.phone}}</a>
+                      <a href="tel:9560915445" class="text-decoration-none">{{orderDetails.mobileNo}}</a>
                     </div>
                   </div>
                 </div>
-                <div class="content forPrint bg-white border d-flex align-items-start justify-content-start mb-2">
+                <!-- <div class="content forPrint bg-white border d-flex align-items-start justify-content-start mb-2">
                   <div class="icon  p-1"><i class="bi bi-house-door"></i></div>
                   <div class="content ">
                     <div class="name  fw-medium text-dark f_14 p-1">Address</div>
@@ -94,9 +94,9 @@
                       {{orderDetails[0].billingDetails.address.country}}
                       </div>
                   </div>
-                </div>
+                </div> -->
           </div>
-        </div> -->
+        </div> 
       </div>
       
     </div>

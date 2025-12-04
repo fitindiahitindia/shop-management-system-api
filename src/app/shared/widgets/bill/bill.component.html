@@ -1,0 +1,62 @@
+<div mat-dialog-content class="text-black no-print-shadow">
+  <!-- <pre>
+    {{data | json}}
+  </pre> -->
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <img src="../../../../assets/664 x 278 logo-small.png" alt="" width="100px">
+        </div>
+        <div class="col-4">
+            <h4 class="f_16 fw-bold " style="text-transform: capitalize;">{{data.adminInfo.shopName}}</h4>
+            <h5 class="f_15">{{data.adminInfo.address}}</h5>
+        </div>
+        <div class="col-5">
+            <h4 class="f_16 fw-bold">{{data.adminInfo.mobileNo}}</h4>
+            <h5 class="f_15">{{data.adminInfo.email}}</h5>
+        </div>
+    </div>
+  </div>
+  <hr>
+  <div class="text-black">
+    <p><b>Date/Time:</b> {{data.orderDetails.dateOrdered | slice:0:10}} / {{data.orderDetails.timeOrdered}}</p>
+    <p><b>Bill No:</b> {{data.orderDetails.orderId}}</p>
+    <p><b>Customer Name:</b> {{data.orderDetails.customerName}}</p>
+    <p><b>Mobile No:</b> {{data.orderDetails.mobileNo}}</p>
+
+    <table class="table text-black">
+      <thead>
+
+        <tr>
+          <th>#</th>
+          <th>P.Id</th>
+          <th>Service/Product</th>
+          <th>Qty</th>
+          <th>Price &#8377;</th>
+        </tr>
+      </thead>
+  <tbody>
+
+    <tr *ngFor="let p of data.orderDetails.orderItems;let i = index">
+      <td>{{i+1}}</td>
+      <td>{{p.pId}}</td>
+      <td>{{p.productName}}</td>
+      <td>{{p.quantity}}</td>
+      <td>{{p.totalPrice}} &#8377;</td>
+    </tr>
+  </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" class="fw-bold">Total</td>
+          <td class="fw-bold">{{data.orderDetails.totalOrderPrice}} &#8377;</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="print()">Print</button>
+  <button mat-raised-button color="accent" (click)="closeDialog()">Close</button>
+</div>

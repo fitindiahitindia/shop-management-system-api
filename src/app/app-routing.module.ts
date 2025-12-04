@@ -18,6 +18,8 @@ import { AdminSettingComponent } from './modules/admin-setting/admin-setting.com
 import { AdminAuthComponent } from './modules/admin-auth/admin-auth.component';
 import { AdminGuard } from './services/admin.guard';
 import { AddManageOrdersComponent } from './modules/manage-orders/add-manage-orders/add-manage-orders.component';
+import { ManageCustomersComponent } from './modules/manage-customers/manage-customers.component';
+import { ViewAllMangeCustomersComponent } from './modules/manage-customers/view-all-mange-customers/view-all-mange-customers.component';
 
 const routes: Routes = [
   // **************************admin dashboard**************************
@@ -51,6 +53,16 @@ const routes: Routes = [
         component: ManageOrdersComponent,
         children: [
           { path: '', component: ViewAllManageOrdersComponent },
+          { path: 'view/:id', component: ViewManageOrdersComponent },
+          { path: 'add', component: AddManageOrdersComponent },
+        ],
+      },
+      //manage Customers
+      {
+        path: 'manage-customers',
+        component: ManageCustomersComponent,
+        children: [
+          { path: '', component: ViewAllMangeCustomersComponent },
           { path: 'view/:id', component: ViewManageOrdersComponent },
           { path: 'add', component: AddManageOrdersComponent },
         ],

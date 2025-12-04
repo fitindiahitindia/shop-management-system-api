@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDetails } from 'src/app/data-type';
 import { orderStatus } from 'src/app/services/enum';
 import { ProductService } from 'src/app/services/product.service';
+import { BillComponent } from 'src/app/shared/widgets/bill/bill.component';
 
 @Component({
   selector: 'app-view-manage-orders',
@@ -12,7 +14,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ViewManageOrdersComponent {
   orderStatus:any = orderStatus;
   ordersLenght:number=0
-  constructor(private _product:ProductService, private _activatedRoute:ActivatedRoute){}
+  constructor(private _product:ProductService, private _activatedRoute:ActivatedRoute,private dialog: MatDialog){}
   orderDetails:any=[];
   totalprice:number[]=[]
   totalquantity:number[]=[]
@@ -76,6 +78,18 @@ export class ViewManageOrdersComponent {
     alert("please select status")
   }
   }
+
+  async openBillDialog() {
+  const billData = {
+    orderDetails: this.orderDetails,
+    adminInfo:await this._product.getAdminInfo()
+  };
+
+  this.dialog.open(BillComponent, {
+    data: billData
+  });
+}
+
   ngOnInit(){
     this.getOrderDetails();
     // this.total();

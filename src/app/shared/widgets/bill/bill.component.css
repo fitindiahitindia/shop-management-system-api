@@ -1,0 +1,16 @@
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #333;
+  padding: 6px;
+}
+.table th {
+  background-color: #ccc;
+}
+.mat-mdc-dialog-container .mdc-dialog__content{
+  color: #000!important;
+}

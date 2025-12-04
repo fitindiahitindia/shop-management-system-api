@@ -36,12 +36,15 @@ createPro={
   productCategory:''
  
 }
+isCreateProductDisabled:boolean=false
+
 getCategoryHtm(val:any){
   this.createPro.productCategory=val.value;
 }
 createProduct():void{
-  console.log(this.createPro)
+  this.isCreateProductDisabled=true;
   this._product.createProduct(this.createPro).subscribe((res:any)=>{
+    this.isCreateProductDisabled=false;
     if(res.data){
     this.isCreatePro=true;
     setTimeout(() => {
@@ -70,7 +73,7 @@ getProductType(){
 }
 getCategroy(){
   this._product.get_Categroy().subscribe((res:any)=>{
-    this.category = res.data[0].categories
+    this.category = res.data
   })
 }
 gettype(){

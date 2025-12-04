@@ -1,112 +1,62 @@
-<!-- <form class="example-form">
-  
-    <table class="example-full-width" cellspacing="0"><tr>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>First name</mat-label>
-        <input matInput>
-      </mat-form-field></td>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>Long Last Name That Will Be Truncated</mat-label>
-        <input matInput>
-      </mat-form-field></td>
-    </tr></table>
-  
-    <p>
-      <mat-form-field class="example-full-width">
-        <mat-label>Address</mat-label>
-        <textarea matInput placeholder="Ex. 100 Main St">1600 Amphitheatre Pkwy</textarea>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Address 2</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
-    </p>
-  
-    <table class="example-full-width" cellspacing="0"><tr>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>City</mat-label>
-        <input matInput placeholder="Ex. San Francisco">
-      </mat-form-field></td>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>State</mat-label>
-        <input matInput placeholder="Ex. California">
-      </mat-form-field></td>
-      <td><mat-form-field class="example-full-width">
-        <mat-label>Postal Code</mat-label>
-        <input matInput #postalCode maxlength="5" placeholder="Ex. 94105" value="94043">
-        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-      </mat-form-field></td>
-    </tr></table>
-  </form> -->
-
-  
 <div class="container-fluid">
   <div class="row p-0">
     <div class="col-md-12 p-0  mt-2">
-    <div class="card">
-      <div class="card-header fs-5 fw-medium">
-        Product Edit
+      <div class="card">
+        <div class="card-header fs-5 fw-medium">
+          Product Edit
+        </div>
+        <div class="card-body py-1">
+          <form action="" class="" #editProductVal="ngForm" (ngSubmit)="editProduct(editProductVal.value)">
+            <div class="row py-2  border bg-light">
+              <div class="col-6">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control form-control-sm bg-white"
+                  ngModel="{{getProductData.productName}}" name="productName">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Quantity</label>
+                <input type="number" class="form-control form-control-sm bg-white"
+                  ngModel="{{getProductData.productQuantity}}" name="productQuantity">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Category</label>
+
+                <select name="" id="" class="form-select form-select-sm form-control-sm text-capitalize" #val
+                  (change)="productType(val)">
+                  <option [selected]="cat.categoryName == getProductData.productCategory ? true:false"
+                    value="{{cat.categoryName}}" *ngFor="let cat of category;"><span
+                      class="text-capitalize">{{cat.categoryName}}</span></option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label">Purchasing Price</label>
+                <input type="number" class="form-control form-control-sm bg-white"
+                  ngModel="{{getProductData.productPurchasingPrice}}" name="productPurchasingPrice">
+              </div>
+
+              <div class="col-6">
+                <label class="form-label">Selling Price (&#8377;)</label>
+                <input type="number" min="0" class="form-control form-control-sm bg-white"
+                  ngModel="{{getProductData.productSellingPrice}}" name="productSellingPrice">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Purchasing Date (&#8377;)</label>
+                <input type="date" min="0" class="form-control form-control-sm bg-white"
+                  ngModel="{{getProductData.productPurchasingDate}}" name="productPurchasingDate">
+              </div>
+              <div class="col-12 text-danger my-1" *ngIf="isError">
+                ❌{{isError}}
+              </div>
+              <div style="margin-top: 8px;">
+                <button mat-flat-button color="primary" type="submit" style="margin-right: 5px;"
+                  [disabled]="isEditButtonDisabled">Save Change</button>
+                <button mat-flat-button color="accent" type="button" routerLink="../../">Close</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="card-body py-1">
-        <form action="" class="" #editProductVal="ngForm" (ngSubmit)="editProduct(editProductVal.value)">
-          <div class="row py-2  border bg-light">
-            <div class="col-6">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productName}}" name="productName" >
-            </div>
-            <div class="col-6">
-              <label class="form-label">Quantity</label>
-              <input type="number" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productQuantity}}" name="productQuantity"
-                >
-            </div>
-            <div class="col-6">
-              <label class="form-label">Category</label>
-              <!-- <select name="" id="" class="form-select form-control-sm">
-                <option value="" *ngFor="let item of dataFilter;"><span class="text-capitalize">{{item}}</span></option>
-              </select> -->
-               <select name="" id="" class="form-select form-select-sm form-control-sm text-capitalize" #val (change)="productType(val)">
-                <option [selected]="cat.categoryName == getProductData.productCategory ? true:false" value="{{cat.categoryName}}" *ngFor="let cat of category;"><span class="text-capitalize">{{cat.categoryName}}</span></option>
-              </select>
-              <!-- <select name="" id="" class="form-select form-select-sm form-control-sm text-capitalize" [ngModelOptions]="{standalone: true}" (change)="productType($event)" ngModel="{{getProductData.type}}">
-                <option value="" selected disabled>Select category type</option>
-                <option value="{{cat.categoryName}}" *ngFor="let cat of getProductData;"><span class="text-capitalize">{{cat.categoryName}}</span></option>
-              </select> -->
-            </div>
-            <div class="col-6">
-              <label class="form-label">Purchasing Price</label>
-              <input type="number" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productPurchasingPrice}}" name="productPurchasingPrice">
-            </div>
-    
-            <div class="col-6">
-              <label class="form-label">Selling Price (&#8377;)</label>
-              <input type="number" min="0" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productSellingPrice}}"  name="productSellingPrice">
-            </div>
-            <div class="col-6">
-              <label class="form-label">Purchasing Date (&#8377;)</label>
-              <input type="date" min="0" class="form-control form-control-sm bg-white" ngModel="{{getProductData.productPurchasingDate}}" name="productPurchasingDate"
-               >
-            </div>
-            <div class="col-12 text-danger my-1" *ngIf="isError">
-              ❌{{isError}}
-            </div>
-            <div style="margin-top: 8px;">
-              <button mat-flat-button color="primary" type="submit" style="margin-right: 5px;">Save Change</button>
-              <button mat-flat-button color="accent" type="button" routerLink="../../">Close</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- <div style="background-color: greenyellow;padding:7px;font-size: 18px;margin-bottom: 5px;font-weight: bold;">
-      <span>View Product</span></div> -->
     </div>
   </div>
 
 </div>
-  
-  <div class="successLoader d-flex align-items-end justify-content-center">
-    <div class="position-fixed z-2 bg-warning text-dark border border-dark px-3 p-1"
-      [ngStyle]="isSuccess ? {'top':'30px','transition':'1s'} :{'top':'-50px','transition':'2s'}">
-      <span class="text-success fw-bold">Update</span>  Product Successfully
-    </div>
-  </div>

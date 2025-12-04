@@ -47,8 +47,13 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AddManageOrdersComponent } from './modules/manage-orders/add-manage-orders/add-manage-orders.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import { A11yModule } from "@angular/cdk/a11y"; 
-
+import { CommonModule } from '@angular/common';
+import { BillComponent } from './shared/widgets/bill/bill.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ManageCustomersComponent } from './modules/manage-customers/manage-customers.component';
+import { ViewAllMangeCustomersComponent } from './modules/manage-customers/view-all-mange-customers/view-all-mange-customers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,10 +75,14 @@ import { A11yModule } from "@angular/cdk/a11y";
     ViewAllManageOrdersComponent,
     AdminSettingComponent, 
     AdminAuthComponent,
-    AddManageOrdersComponent
+    AddManageOrdersComponent,
+    BillComponent,
+    ManageCustomersComponent,
+    ViewAllMangeCustomersComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatGridListModule,
@@ -98,6 +107,8 @@ import { A11yModule } from "@angular/cdk/a11y";
     AngularEditorModule,
     MatPaginatorModule,
     MatSnackBarModule,
+    MatDialogModule,
+    MatAutocompleteModule,
     A11yModule
 ],
   providers: [ProductService,DashboardService],

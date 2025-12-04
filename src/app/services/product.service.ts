@@ -29,7 +29,21 @@ export class ProductService {
   // URL="https://ecommerce-api-topaz.vercel.app/api/v1"
   // URL="https://ecommerce-api-weld.vercel.app/api/v1"
   
-
+  getCustomer(){
+   const adminlogintoken=this.getAdminLoginToken();
+   const headers = {"Authorization":"Bearer "+adminlogintoken}
+   const getCustomer= this._http.get<productResponse>(this.URL+"/customer/customerViews",{headers});
+   return getCustomer
+  }
+  getCustomerByPag(page: number, limit: number){
+    const adminlogintoken=this.getAdminLoginToken();
+  const headers = {"Authorization":"Bearer "+adminlogintoken}
+  const params = new HttpParams()
+    .set('page', page)
+    .set('limit', limit);
+  return this._http.get(this.URL+"/customer/customerViewsByPag", { params, headers });
+    
+  }
   getProducts(page: number, limit: number) {
   const adminlogintoken=this.getAdminLoginToken();
   const headers = {"Authorization":"Bearer "+adminlogintoken}
@@ -138,7 +152,6 @@ register_admin(credential:object){
   }
   create_Category(categroy:any){
     const adminlogintoken=this.getAdminLoginToken();
-    console.log(adminlogintoken)
     const headers = {"Authorization":"Bearer "+adminlogintoken}
     return this._http.post(this.URL+"/category/categoryCreate",categroy,{headers});
   }
@@ -226,8 +239,23 @@ register_admin(credential:object){
    }
    getAdminLoginToken(){
      let getToken=JSON.parse(localStorage.getItem('adminlogintoken')!);
-     return getToken;
+     if(getToken!==null){
+       return getToken.token;
+     }else{
+      return null
+     }
    }
+   getAdminInfo(){
+    let getAdminInfo=JSON.parse(localStorage.getItem('adminlogintoken')!);
+    const adminInfo = {
+      shopName: getAdminInfo.shopName,
+      email: getAdminInfo.email,
+      mobileNo: getAdminInfo.mobileNo,
+      address: getAdminInfo.address,
+      ownerName: getAdminInfo.ownerName,
+    }
+    return adminInfo;
+    }
   findUserLoginToken(){
 
   }

@@ -11,6 +11,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { LoaderComponent } from './widgets/loader/loader.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { SnackbarComponent } from './widgets/snackbar/snackbar.component';
+import { BillComponent } from './widgets/bill/bill.component';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,10 @@ import { SnackbarComponent } from './widgets/snackbar/snackbar.component';
     FooterComponent,
     NotfoundComponent,
     HeaderComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    // BillComponent
   ],
   imports: [
-    CommonModule,
     MatListModule,
     MatToolbarModule,
     MatIconModule,

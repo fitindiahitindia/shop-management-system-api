@@ -60,3 +60,48 @@ hr.dashboardTitle{
   margin:9px 0!important
 }
 
+@media print {
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  mat-dialog-container, 
+  mat-dialog-container * {
+    visibility: visible !important;
+  }
+
+  mat-dialog-container {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: white !important;
+    transform: none !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  thead, tbody, tfoot {
+    display: table-header-group !important;
+  }
+
+  tfoot tr {
+    display: table-row !important;
+    visibility: visible !important;
+  }
+
+  tfoot td {
+    font-weight: bold !important;
+    border-top: 1px solid black !important;
+  }
+
+  button {
+    display: none !important;
+  }
+}

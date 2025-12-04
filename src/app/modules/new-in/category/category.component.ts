@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-category',
@@ -8,8 +9,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent {
-  constructor(private _product: ProductService){}
-  isSuccess:boolean = false;
+  constructor(private _product: ProductService,private _snackbar: SnackbarService){}
   productCategory:any[] = []
   message=""
   isUpdate:boolean = false;
@@ -26,12 +26,11 @@ export class CategoryComponent {
   }
   createCategory(category:any){
     this._product.create_Category(category).subscribe((res:any)=>{
-      this.isSuccess = true;
-      this.message = "Category Add Successfully"
+      this._snackbar.openSnackBar("Add category successfully", "X");
+    
       this.categoryObj.categoryName=""
       this.getCategory()
       setTimeout(() => {
-        this.isSuccess = false;
       }, 3000);
       },(error)=>{
        this.uploadError = error.error
@@ -39,31 +38,23 @@ export class CategoryComponent {
   }
   getCategory(){
     this._product.get_Categroy().subscribe((res:any)=>{
-      this.productCategory = res.data[0].categories
+      this.productCategory = res.data
     })
   } 
   updateCategory(){
    this._product.edit_Category(this.editId,this.categoryObj).subscribe((res:any)=>{
-    this.isSuccess = true;
-    this.message = "Category Update Successfully"
+    this._snackbar.openSnackBar("Update category successfully", "X");
     this.isUpdate = false;
     this.categoryObj.categoryName = null;
     this.getCategory()
-      setTimeout(() => {
-        this.isSuccess = false;
-      }, 3000);
-   })
-  }
+  })}
+
   remove(id:string){
     const confirm=window.confirm("Are you sure delete this category")
     if(confirm){
     this._product.remove_Category(id).subscribe((res:any)=>{
-      this.isSuccess = true
-      this.message = "Category Remove Successfully"
+      this._snackbar.openSnackBar("Delete category successfully", "X");
       this.getCategory()
-      setTimeout(() => {
-        this.isSuccess = false;
-      }, 3000);
     })}
   }
 
@@ -81,7 +72,6 @@ export class CategoryComponent {
   ngOnInit(){
    this.getCategory();
    let objlocalstorage = new MylocalStorage();
-   console.log(this.productCategory)
   }
   
  

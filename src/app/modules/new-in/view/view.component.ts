@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { product2 } from 'src/app/interface/product2.interface';
 import { response } from 'src/app/interface/response.interface';
 import { ProductService } from 'src/app/services/product.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -15,7 +16,7 @@ export interface PeriodicElement {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent {
-  constructor(private _product:ProductService){}
+  constructor(private _product:ProductService,private _snackbar:SnackbarService){}
   isLoader:boolean=false;
   products: any[] = [];
   totalRecords = 0;    // total items in DB
@@ -44,7 +45,7 @@ export class ViewComponent {
     this.isLoader=true;
     this._product.removeSingleProduct(id).subscribe((res:any)=>{
       this.loadProducts(this.currentPage, this.pageSize);
-      alert(res.message)
+      this._snackbar.openSnackBar("Product deleted successfully", "X");
       this.isLoader=false;
     },(error)=>{
       if(error.status===404){

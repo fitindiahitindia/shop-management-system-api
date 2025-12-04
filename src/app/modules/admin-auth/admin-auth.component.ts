@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AdminLogin } from 'src/app/interface/AdminLogin.interface';
 import { ProductService } from 'src/app/services/product.service';
@@ -10,6 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class AdminAuthComponent {
   constructor(private _product: ProductService, private _router: Router) {}
+  color: ThemePalette = 'accent';
   isOpen:boolean = false;
   isLogin: boolean = false;
   errorStatus: string = '';

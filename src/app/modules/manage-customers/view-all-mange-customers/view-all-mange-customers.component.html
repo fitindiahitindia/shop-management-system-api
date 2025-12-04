@@ -2,47 +2,31 @@
   <!-- <pre>
     {{allOrders|json}}
   </pre> -->
-  <!-- <form class="mt-2">
-     <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-       <input type="text"
-       class="form-control mb-2"
-       placeholder="Search..."
-       (input)="search($event)">
-     </div>
-  </form> -->
     <div class="table-responsive">
     <table class="table mt-2 border table-responsive table-bordered">
       <thead>
         <tr>
           <th scope="col" class="bg-light">#</th>
-          <th scope="col" class="bg-light">O.Id</th>
+          <th scope="col" class="bg-light">C.Id</th>
           <th scope="col" class="bg-light">C.Name</th>
           <th scope="col" class="bg-light">M.No</th>
-          <th scope="col" class="bg-light">Qty</th>
-          <th scope="col" class="bg-light">S.Price</th>
-          <th scope="col" class="bg-light">D & T</th>
-          <th scope="col" class="bg-light">Act</th>
+          <!-- <th scope="col" class="bg-light">Act</th> -->
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of filteredOrders;let i=index">
+        <tr *ngFor="let item of allCustomers;let i=index">
           <td>{{ ((currentPage - 1) * pageSize) + (i + 1) }}</td>
-          <td>{{item.orderId}}</td>
-          <td *ngIf="item.customerName.length==0">-</td>
+          <td>{{item.customerId}}</td>
           <td *ngIf="item.customerName.length>0">{{item.customerName}}</td>
-          <td *ngIf="item.mobileNo.length==0">-</td>
           <td *ngIf="item.mobileNo.length>0">{{item.mobileNo}}</td>
-          <td>{{item.numberOfItems}}</td>
-          <td>{{item.totalOrderPrice}} &#8377;</td>
-          <td>{{item.dateOrdered | slice:0:10}} <b>&</b> {{item.timeOrdered}}</td>
-          <td class="d-flex align-content-between">
-             <button class="btn btn-info btn-sm p-1 my-0 py-0" routerLink="view/{{item._id}}">View</button>
-             <button class="btn btn-danger btn-sm p-1 my-0 py-0 mx-1" (click)="removeOrder(item._id,item.productId,item.productQuantity)">Remove</button>
-          </td>
+          <!-- <td class="d-flex align-content-between"> -->
+             <!-- <button class="btn btn-info btn-sm p-1 my-0 py-0" routerLink="view/{{item._id}}">View</button> -->
+             <!-- <button class="btn btn-danger btn-sm p-1 my-0 py-0 mx-1" (click)="removeOrder(item._id,item.productId,item.productQuantity)">Remove</button> -->
+          <!-- </td> -->
         </tr>
       </tbody>
     </table>
-    <div class="text-center" *ngIf="allOrders.length == 0">Add Order</div>
+    <div class="text-center" *ngIf="allCustomers.length == 0">Add Customer</div>
     <mat-paginator [length]="totalRecords"
               [pageSize]="pageSize"
               [pageSizeOptions]="[5, 10, 25, 100]"
