@@ -15,7 +15,11 @@ const customerRouter = require("../routes/customerRouter");
 
 //Middlewares
 app.use(express.json()); //pass incoming json data
-app.use(cors());
+app.use(cors({
+  origin: "*",             
+  methods: "GET,POST,PUT,DELETE,PATCH",
+  allowedHeaders: "Content-Type, Authorization"
+}));
 
 const path = require("path")
 app.get("/",(req,res)=>{
