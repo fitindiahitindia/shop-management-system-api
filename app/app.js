@@ -12,10 +12,15 @@ const cors = require("cors");
 const analysicRouter = require("../routes/analysicRouter");
 const axios = require("axios");
 const customerRouter = require("../routes/customerRouter");
-app.use(cors());
 
 //Middlewares
 app.use(express.json()); //pass incoming json data
+app.use(cors());
+
+const path = require("path")
+app.get("/",(req,res)=>{
+  res.sendFile(path.join(__dirname + '/index.html'))
+})
 
 //Routes
 app.use("/api/v1/admin", adminRouter);
