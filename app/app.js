@@ -35,31 +35,31 @@ app.use(notFoundErr);
 app.use(globalErrHandler);
 
 
-async function createBulkProducts() {
-  try {
-    const response = await axios.post("http://localhost:2020/api/v1/product/productCreateBulk");
+// async function createBulkProducts() {
+//   try {
+//     const response = await axios.post("http://localhost:2020/api/v1/product/productCreateBulk");
           
-          console.log(response.data);
-        } catch (err) {
-          console.log(err);
-        }
-      }
+//           console.log(response.data);
+//         } catch (err) {
+//           console.log(err);
+//         }
+//       }
       // createBulkProducts()
-async function deleteAllProducts() {
-  try {
-    const response = await axios.delete("http://localhost:2020/api/v1/product/productAllDelete",{
+// async function deleteAllProducts() {
+//   try {
+//     const response = await axios.delete("http://localhost:2020/api/v1/product/productAllDelete",{
       
-            headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTJiOTYzZWEzZjIwOThhZTdmOGIyOSIsImlhdCI6MTc2Mzc5MjI1NywiZXhwIjoxNzY0MjI0MjU3fQ.Q2-5-fZZUYb1rYUidSCC93HVCtbmJWe6-W1D7GsB98g",
-                "Content-Type": "application/json"
+//             headers: {
+//                 "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTJiOTYzZWEzZjIwOThhZTdmOGIyOSIsImlhdCI6MTc2Mzc5MjI1NywiZXhwIjoxNzY0MjI0MjU3fQ.Q2-5-fZZUYb1rYUidSCC93HVCtbmJWe6-W1D7GsB98g",
+//                 "Content-Type": "application/json"
             
-}})
+// }})
           
-          console.log(response.data);
-        } catch (err) {
-          console.log(err);
-        }
-      }
+//           console.log(response.data);
+//         } catch (err) {
+//           console.log(err);
+//         }
+//       }
     // deleteAllProducts()
       
       module.exports = app;
