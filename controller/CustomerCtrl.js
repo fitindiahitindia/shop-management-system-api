@@ -2,7 +2,7 @@ const AysncHandler = require("express-async-handler");
 const Customer = require("../model/Customer");
 
 exports.customerViews = AysncHandler(async(req,res)=>{
-   const getcustomer = await Customer.find({admin:req.adminAuth._id})
+   const getcustomer = await Customer.find({createdBy:req.adminAuth._id})
    .select("-createdAt -updatedAt -__v -createdBy")
     res.status(201).json({
         status:"success",
