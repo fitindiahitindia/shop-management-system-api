@@ -61,6 +61,10 @@ exports.createOrder = AysncHandler(async (req, res) => {
       createdBy: req.adminAuth._id,
     });
     const createOrd = await order.save();
+    // push code admin's orders
+    const admin = await Admin.findById(req.adminAuth._id);
+    admin.orders.push(order._id);
+    await admin.save();
 
     res.status(201).json({
       status: "success",
