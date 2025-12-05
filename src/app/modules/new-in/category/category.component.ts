@@ -68,7 +68,9 @@ export class CategoryComponent {
       this._snackbar.openSnackBar("Delete category successfully", "X");
       this.apiLoader=false;
       this.getCategory()
-    })}
+    })}else{
+      this.apiLoader=false;
+    }
   }
 
   edit(item:any){
