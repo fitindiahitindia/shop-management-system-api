@@ -16,13 +16,16 @@ exports.createOrder = AysncHandler(async (req, res) => {
 
   try {
     // add customer
+    if(customerName!="" && mobileNo!=""){
+      
       const customerFind = await Customer.findOne({customerName,mobileNo});
-   if(!customerFind){
-      await Customer.create({
-      customerName,
-      mobileNo,
-      createdBy:await req.adminAuth._id
-   })}
+      if(!customerFind){
+         await Customer.create({
+         customerName,
+         mobileNo,
+         createdBy:await req.adminAuth._id
+      })}
+    }
 
     // create order items
     const orderItemsIds = Promise.all(
