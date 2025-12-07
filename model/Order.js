@@ -31,14 +31,24 @@ const orderSchema = new mongoose.Schema({
         type:Date,
         default:Date.now,
      },
-     timeOrdered: {
+    timeOrdered: {
         type: String,
         required: true,
         default: () => {
             const now = new Date();
-            return now.toLocaleTimeString('en-IN', { hour12: false });
-        }
-        }
+
+            // IST offset in minutes (+5:30)
+            const istOffset = 330; 
+            const istTime = new Date(now.getTime() + istOffset * 60 * 1000);
+
+            // Format HH:MM:SS
+            const hh = String(istTime.getUTCHours()).padStart(2, '0');
+            const mm = String(istTime.getUTCMinutes()).padStart(2, '0');
+            const ss = String(istTime.getUTCSeconds()).padStart(2, '0');
+
+            return `${hh}:${mm}:${ss}`;
+  }
+}
 
 
     
