@@ -31,14 +31,15 @@ const orderSchema = new mongoose.Schema({
         type:Date,
         default:Date.now,
      },
-     timeOrdered:{
-        type:String,
-        required:true,
-        default:()=>{
-             const now = new Date();
-             return now.toTimeString().split(' ')[0];
-        },
-     } 
+     timeOrdered: {
+        type: String,
+        required: true,
+        default: () => {
+            const now = new Date();
+            return now.toLocaleTimeString('en-IN', { hour12: false });
+        }
+        }
+
 
     
 },{
