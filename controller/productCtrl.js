@@ -91,31 +91,48 @@ exports.getProduct = AysncHandler(async(req,res)=>{
 
 })
 
-exports.getProductPagination = AysncHandler(async(req,res)=>{
-    try {
-        const page = req.query.page;   // default page = 1
-        const limit = req.query.limit; // default limit = 10
-        const skip = (page - 1) * limit;
+exports.getProductPagination = AysncHandler(async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search ? req.query.search.trim() : "";
 
-        const products = await Product.find({createdBy:req.adminAuth._id}).sort({createdAt:-1})
-            .skip(skip)
-            .limit(limit);
+    const skip = (page - 1) * limit;
 
-        const total = await Product.countDocuments({createdBy:req.adminAuth._id});
-        res.status(200).json({
-            page,
-            limit,
-            total,
-            totalPages: Math.ceil(total / limit),
-            data: products
-        });
-        // console.log(rel)
+    // 🔍 Search Filter
+    const filter = {
+      createdBy: req.adminAuth._id
+    };
 
-    } catch (err) {
-         console.log(err);
+    if (search) {
+      filter.productName = {
+        $regex: search,
+        $options: "i" // case-insensitive search
+      };
     }
 
-})
+    // Fetch filtered + paginated products
+    const products = await Product.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    // Count filtered records
+    const total = await Product.countDocuments(filter);
+
+    res.status(200).json({
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      data: products
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 
 //@desc get single product
