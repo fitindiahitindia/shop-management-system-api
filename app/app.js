@@ -22,7 +22,8 @@ app.use(cors({
 
 app.use(express.json()); //pass incoming json data
 
-const path = require("path")
+const path = require("path");
+const moneyTransferRouter = require("../routes/moneyTransferRoute");
 app.get("/",(req,res)=>{
   res.sendFile(path.join(__dirname + '/index.html'))
 })
@@ -33,6 +34,7 @@ app.use("/api/v1/analysic", analysicRouter);
 app.use("/api/v1/product", productRouter)
 app.use("/api/v1/category",categoryRouter)
 app.use("/api/v1/order",orderRouter)
+app.use("/api/v1/moneyTransfer",moneyTransferRouter)
 app.use("/api/v1/customer",customerRouter)
 
 //Error middlewares
