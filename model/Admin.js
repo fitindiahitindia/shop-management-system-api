@@ -61,6 +61,12 @@ const adminSchema = new mongoose.Schema(
         ref:"Category"
       }
     ],
+    AdminLogs:[
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"AdminLogs"
+      }
+    ]
   },
   {
     timestamps: true,

@@ -4,6 +4,9 @@ const Admin = require("../model/Admin");
 const generateToken = require("../utils/generateToken");
 const verifyToken = require("../utils/verifyToken");
 const { hashPassword, isPassMatched } = require("../utils/helpers");
+const AdminLogs = require("../model/AdminLogs");
+const verifyAdminToken = require("../utils/verifyAdminToken");
+const timeDate = require("../utils/dateTime");
 
 //@desc Register admin
 //@route POST /api/admins/register
@@ -49,14 +52,30 @@ exports.loginAdminCtrl = AysncHandler(async (req, res) => {
   if (!isMatched) {
     return res.json({ message: "Invalid login crendentials" });
   } else {
+    const token = generateToken(user._id)
     fdata = {
-      token:generateToken(user._id),
+      token:token,
       shopName:user.shopName,
       ownerName:user.ownerName,
       mobileNo:user.mobileNo,
       email:user.email,
       address:user.address,
     }
+
+    // set adminslogs
+    
+    
+    const verifyadmintoken=verifyAdminToken(token)
+
+    await AdminLogs.create({
+    login:timeDate(),
+    lastActivity:timeDate(),
+    createdBy:verifyadmintoken.id,
+    token:token,
+    ip:req.ip,
+    device:req.headers['user-agent'],
+  });
+
     return res.json({
       status:"success",
       data: fdata,

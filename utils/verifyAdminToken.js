@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const isExpiryToken = require("./isExpiryToken");
 
 
 const verifyAdminToken = token => {
@@ -6,7 +7,8 @@ const verifyAdminToken = token => {
     if (err) {
       return true
     } else {
-      return decoded;
+     
+     return isExpiryToken(decoded)
     }
   });
   
