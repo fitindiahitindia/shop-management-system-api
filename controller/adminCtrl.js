@@ -194,25 +194,25 @@ exports.updateAdminPassword = AysncHandler(async (req, res) => {
     var decodedConfirmPasswords =atob(confirmpassword).split('_')[0]
 
     if (decodedOldPasswords == "") {
-        return res.status(401).json({
+        return res.status(400).json({
             status:"failed",
             message: "oldpassword is required"
         })
     }
     if (decodedNewPasswords == "") {
-        return res.status(401).json({
+        return res.status(400).json({
             status:"failed",
             message: "newpassword is required"
         })
     }
     if (decodedConfirmPasswords == "") {
-        return res.status(401).json({
+        return res.status(400).json({
             status:"failed",
             message: "confirm password is required"
         })
     }
     if(decodedNewPasswords !== decodedConfirmPasswords){
-        return res.status(401).json({
+        return res.status(400).json({
             status:"failed",
             message: "new password and confim password are not matched"
         })
@@ -227,7 +227,7 @@ exports.updateAdminPassword = AysncHandler(async (req, res) => {
             message: "password changed successfully",
         });
     }else{
-        res.status(401).json({
+        res.status(400).json({
             status: "failed",
             message: "old password is wrong",
         });
