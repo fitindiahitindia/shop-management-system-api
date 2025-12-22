@@ -37,10 +37,6 @@ app.use("/api/v1/order",orderRouter)
 app.use("/api/v1/moneyTransfer",moneyTransferRouter)
 app.use("/api/v1/customer",customerRouter)
 
-
-app.use('/api/v1/images/products', express.static(path.join(__dirname, '../uploads/products')));
-
-
 //Error middlewares
 app.use(notFoundErr);
 app.use(globalErrHandler);

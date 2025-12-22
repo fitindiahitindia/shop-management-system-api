@@ -5,9 +5,9 @@ const { createProduct, getProduct, getProductById, deleteProduct, updateProductB
 const isAuthenticatedAdmin = require('../middlewares/isAuthenticatedAdmin');
 const Admin = require('../model/Admin');
 const productRouter = express.Router();
-const upload = require('../middlewares/upload');
 
-productRouter.post('/productCreate',isAuthenticatedAdmin(Admin), upload.single('file'), createProduct);
+
+productRouter.post('/productCreate',isAuthenticatedAdmin(Admin),createProduct);
 // productRouter.post('/productCreateBulk',createProductsInsideManuallyBulk);
 productRouter.get('/productViews',isAuthenticatedAdmin(Admin), getProduct);
 productRouter.get('/productViewsPagination',isAuthenticatedAdmin(Admin), getProductPagination);

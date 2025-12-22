@@ -19,38 +19,33 @@ exports.createProduct = AysncHandler(async(req,res)=>{
     } = req.body;
 
     if(!productName){
-       return res.status(400).json({
+       return res.status(401).json({
             message:"product name is required"
         })
     }
-    if(!req.file.filename){
-       return res.status(400).json({
-            message:"product image is required"
-        })
-    }
     if(!productQuantity){
-       return res.status(400).json({
+       return res.status(401).json({
             message:"product Quantity is required"
         })
     }
     if(!productCategory){
-       return res.status(400).json({
+       return res.status(401).json({
             message:"product Category is required"
         })
     }
     if(!productPurchasingPrice){
-       return res.status(400).json({
+       return res.status(401).json({
             message:"product Purchasing Price is required"
         })
     }
     if(!productSellingPrice){
-       return res.status(400).json({
+       return res.status(401).json({
             message:"product Selling Price is required"
         })
     }
     
      if(!productPurchasingDate){
-       return res.status(400).json({
+       return res.status(401).json({
             message:"product Purchasing Date is required"
         })
     }
@@ -61,11 +56,8 @@ exports.createProduct = AysncHandler(async(req,res)=>{
     //     throw new Error("product already exist");
     // } 
     //create product
-    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-
     const createPro = await Product.create({
         productName,
-        productImage: `${protocol}://${req.headers.host}/api/v1/images/products/${req.file.filename}`,
         productPurchasingPrice,
         productSellingPrice,
         productQuantity,
@@ -124,6 +116,7 @@ exports.getProductPagination = AysncHandler(async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
+
     // Count filtered records
     const total = await Product.countDocuments(filter);
 
