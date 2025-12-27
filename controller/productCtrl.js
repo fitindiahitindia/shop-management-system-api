@@ -6,7 +6,6 @@ const Admin = require("../model/Admin");
 const Order = require("../model/Order");
 const resServer = require("../utils/resServer");
 const dbCommon = require("../common/dbCommon");
-const mongoose = require('mongoose');
 
 //@desc create product
 //@route POST api/v1/product
@@ -183,24 +182,12 @@ exports.updateProductById = AysncHandler(async(req,res)=>{
 //@acess private
 
 exports.deleteProduct = AysncHandler(async(req,res)=>{
-        const session = await mongoose.startSession();
-        session.startTransaction();
-
-        try{
-        const productId = new mongoose.Types.ObjectId(req.params.id);
-
-         await Product.findByIdAndDelete(productId,{session});
-         await Order.deleteMany({productId},{session});
-
-         await session.commitTransaction();
-         session.endSession();
-         resServer(res,201,"success","product deleted successfully",null)
-        }catch(error){
-          await session.abortTransaction();
-          session.endSession();
-
-          return resServer(res, 500, false, "Delete failed", error.message);
-        }
+        await Product.findByIdAndDelete(req.params.id);
+        await Order.deleteMany({productId:req.params.id})
+        res.status(201).json({
+            status:"success",
+            message:"product deleted successfully",
+        })
 })
 
 exports.deleteAllProduct = AysncHandler(async(req,res)=>{
