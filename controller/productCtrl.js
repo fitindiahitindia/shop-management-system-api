@@ -4,6 +4,9 @@ const AysncHandler = require("express-async-handler");
 const Product = require("../model/Product");
 const Admin = require("../model/Admin");
 const Order = require("../model/Order");
+const resServer = require("../utils/resServer");
+const dbCommon = require("../common/dbCommon");
+const { default: mongoose } = require("mongoose");
 
 //@desc create product
 //@route POST api/v1/product
@@ -19,33 +22,33 @@ exports.createProduct = AysncHandler(async(req,res)=>{
     } = req.body;
 
     if(!productName){
-       return res.status(401).json({
+       return res.status(400).json({
             message:"product name is required"
         })
     }
     if(!productQuantity){
-       return res.status(401).json({
+       return res.status(400).json({
             message:"product Quantity is required"
         })
     }
     if(!productCategory){
-       return res.status(401).json({
+       return res.status(400).json({
             message:"product Category is required"
         })
     }
     if(!productPurchasingPrice){
-       return res.status(401).json({
+       return res.status(400).json({
             message:"product Purchasing Price is required"
         })
     }
     if(!productSellingPrice){
-       return res.status(401).json({
+       return res.status(400).json({
             message:"product Selling Price is required"
         })
     }
     
      if(!productPurchasingDate){
-       return res.status(401).json({
+       return res.status(400).json({
             message:"product Purchasing Date is required"
         })
     }
@@ -55,8 +58,10 @@ exports.createProduct = AysncHandler(async(req,res)=>{
     // if(productExist){
     //     throw new Error("product already exist");
     // } 
+
     //create product
-    const createPro = await Product.create({
+
+    const productData = {
         productName,
         productPurchasingPrice,
         productSellingPrice,
@@ -64,17 +69,19 @@ exports.createProduct = AysncHandler(async(req,res)=>{
         productPurchasingDate,
         productCategory,
         createdBy:await req.adminAuth._id,
-    })
-
-    const admin = await Admin.findById(req.adminAuth._id);
+    }
+    // insert product
+    const objInsI = new dbCommon.insertDbCommon(Product);
+    const createPro = await objInsI.create(productData);
+    
+    //push product to admin
+    const objInsF = new dbCommon.findDbCommon(Admin);
+    const admin = await objInsF.findByIdFun(req.adminAuth._id);
     admin.products.push(createPro._id);
     await admin.save();
     
-    res.status(201).json({
-        status:"success",
-        message:"product created successfully",
-        data:createPro,
-    })
+    //respone
+    resServer(res,201,"success","product created successfully",createPro)
 })
 
 //@desc get all product
@@ -83,12 +90,8 @@ exports.createProduct = AysncHandler(async(req,res)=>{
 
 exports.getProduct = AysncHandler(async(req,res)=>{
     const product = await Product.find({createdBy:req.adminAuth.id}).sort({createdAt:-1});
-    res.status(201).json({
-        status:"success",
-        message:"product fetched successfully",
-        data:product,
-    })
-
+    //respone
+    resServer(res,200,"success","product fetched successfully",product)
 })
 
 exports.getProductPagination = AysncHandler(async (req, res) => {
@@ -140,15 +143,13 @@ exports.getProductPagination = AysncHandler(async (req, res) => {
 //@access public
 
 exports.getProductById = AysncHandler(async(req,res)=>{
-     const productById  = await Product.findById(req.params.id)
-     if(!productById){
+     const ObjInstF   =new dbCommon.findDbCommon(Product)
+     const product = await ObjInstF.findByIdFun(req.params.id);
+     if(!product){
         throw new Error("product does not exist")
      }
-     res.status(201).json({
-        status:"success",
-        message:"product fetched successfully",
-        data:productById
-     })
+
+     resServer(res,200,"success","product fetched successfully",product)
 }) 
 
 
@@ -163,23 +164,18 @@ exports.updateProductById = AysncHandler(async(req,res)=>{
         productQuantity,
         productPurchasingDate,
         productCategory} = req.body;
-
-    const updateById = await Product.findByIdAndUpdate(
-        req.params.id,
-        {
-         productName,
+    
+    const ObjInstFu = new dbCommon.findDbCommon(Product);
+    const updateById = await ObjInstFu.findByIdAndUpdateFun(req.params.id,{
+        productName,
         productPurchasingPrice,
         productSellingPrice,
         productQuantity,
         productPurchasingDate,
         productCategory
-        }
-    )
-    res.status(201).json({
-        status:"success",
-        message:"product updated successfully",
-        data:updateById
     })
+
+    resServer(res,200,"success","product updated successfully",updateById)
 })
  
 //@desc delete product
@@ -187,12 +183,22 @@ exports.updateProductById = AysncHandler(async(req,res)=>{
 //@acess private
 
 exports.deleteProduct = AysncHandler(async(req,res)=>{
-        await Product.findByIdAndDelete(req.params.id);
-        await Order.deleteMany({productId:req.params.id})
-        res.status(201).json({
-            status:"success",
-            message:"product deleted successfully",
-        })
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        try{
+         await Product.findByIdAndDelete(req.params.id,{session});
+         await Order.deleteMany({productId:req.params.id},{session});
+
+         await session.commitTransaction();
+         session.endSession();
+         resServer(res,201,"success","product deleted successfully",null)
+        }catch(error){
+          await session.abortTransaction();
+          session.endSession();
+
+          return resServer(res, 500, false, "Delete failed", error.message);
+        }
 })
 
 exports.deleteAllProduct = AysncHandler(async(req,res)=>{

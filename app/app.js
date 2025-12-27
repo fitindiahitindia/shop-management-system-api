@@ -28,6 +28,75 @@ app.get("/",(req,res)=>{
   res.sendFile(path.join(__dirname + '/index.html'))
 })
 
+// let balance = 1000;
+
+// function withDrawFromAtm(withdrawAmount){
+//   return new Promise((resolve,reject)=>{
+//     console.log("ATM: process your request...");
+//     setTimeout(()=>{
+//       if(balance >= withdrawAmount){
+//         balance -= withdrawAmount;
+//         resolve("cash withdraw: "+ withdrawAmount + ", remaining balance: " + balance);
+//       }else{
+//         reject("ATM: insufficient balance. Available balance: " + balance);
+//       }
+//     },3000)
+//   })
+// }
+
+// async function atmProcess(withdrawAmount){
+//  try{
+//    console.log("Customer Withdraw:"+ withdrawAmount);
+//    const result  = await withDrawFromAtm(withdrawAmount);
+//    console.log(result)
+//  }catch(err){
+//   console.log(err)
+//  }
+
+// }
+
+// atmProcess(2000)
+
+// quantity = 10;
+
+// function checkInventory(orderQuantity){
+//  let checkInv = new Promise((resolve,reject)=>{
+//     console.log("Checking inventory...");
+//     setTimeout(()=>{
+//       if(orderQuantity <= quantity){
+//         quantity -= orderQuantity;
+//         resolve("Order quantity is available. Remaining quantity: " + quantity);
+//       }
+//       else{
+//         reject("Order Quantity is not available");
+//       }
+//     },6000)
+//   })
+//   return checkInv;
+// }
+
+// async function makeOrder(orderQuantity){
+//   try{
+//     console.log("your order quanity is:"+orderQuantity);
+//     const result = await checkInventory(orderQuantity);
+//     console.log(result)
+//   }catch(error){
+//     console.log(error)
+//   }
+// }
+
+// makeOrder(3)
+
+// let checkEven = new Promise((resolve, reject) => {
+//     let number = 3;
+//     if (number % 2 === 0) resolve("The number is even!");
+//     else reject("The number is odd!");
+// });
+// checkEven
+//     .then((message) => console.log(message)) 
+//     .catch((error) => console.error(error)); 
+
+
 //Routes
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/analysic", analysicRouter);
