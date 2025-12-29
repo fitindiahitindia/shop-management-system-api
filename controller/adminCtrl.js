@@ -7,6 +7,8 @@ const { hashPassword, isPassMatched } = require("../utils/helpers");
 const AdminLogs = require("../model/AdminLogs");
 const verifyAdminToken = require("../utils/verifyAdminToken");
 const timeDate = require("../utils/dateTime");
+const dbCommon = require("../common/dbCommon");
+const resServer = require("../utils/resServer");
 
 //@desc Register admin
 //@route POST /api/admins/register
@@ -20,19 +22,20 @@ exports.registerAdmCtrl = AysncHandler(async (req, res) => {
   }
  
   //register
-  const user = await Admin.create({
+  userObj = {
     shopName,
     ownerName,
     mobileNo,
     email,
     address,
     password: await hashPassword(password),
-  });
-  res.status(201).json({
-    status: "success",
-    data: user,
-    message: "Shop registered successfully",
-  });
+  }
+  const objInsU = new dbCommon.insertDbCommon(Admin);
+  const user = await objInsU.create(userObj)
+
+  //respone
+  resServer(res,201,"success","Shop registered successfully",user)
+ 
 });
 
 
@@ -53,7 +56,7 @@ exports.loginAdminCtrl = AysncHandler(async (req, res) => {
     return res.json({ message: "Invalid login crendentials" });
   } else {
     const token = generateToken(user._id)
-    fdata = {
+    const adminObj = {
       token:token,
       shopName:user.shopName,
       ownerName:user.ownerName,
@@ -63,24 +66,21 @@ exports.loginAdminCtrl = AysncHandler(async (req, res) => {
     }
 
     // set adminslogs
-    
-    
     const verifyadmintoken=verifyAdminToken(token)
-
-    await AdminLogs.create({
+    const adminLogObj = {
     login:timeDate(),
     lastActivity:timeDate(),
     createdBy:verifyadmintoken.id,
     token:token,
     ip:req.ip,
     device:req.headers['user-agent'],
-  });
-
-    return res.json({
-      status:"success",
-      data: fdata,
-      message: "Admin logged in successfully",
-    });
+    }
+    
+    const objInsA = new dbCommon.insertDbCommon(AdminLogs);
+    await objInsA.create(adminLogObj)
+    
+     //respone
+    resServer(res,200,"success","Admin logged in successfully",adminObj)
   }
 });
 
@@ -96,8 +96,9 @@ exports.getAdminsCtrl = AysncHandler(async (req, res) => {
 //@access   Private
 
 exports.getAdminProfileCtrl = AysncHandler(async (req, res) => {
-  const admin = await Admin.findById(req.adminAuth._id);
-    const adminPrfile = {
+  const objInsA = new dbCommon.findDbCommon(Admin);
+  const admin = await objInsA.findByIdFun(req.adminAuth._id);
+  const adminPrfile = {
         shopId: admin.shopId,
         shopName: admin.shopName,
         ownerName:admin.ownerName,
@@ -108,11 +109,9 @@ exports.getAdminProfileCtrl = AysncHandler(async (req, res) => {
     if (!admin) {
         throw new Error("Admin Not Found");
     } else {
-        res.status(200).json({
-            status: "success",
-            message: "admin profile fetched successfully",
-            data: adminPrfile,
-        });
+
+       //respone
+       resServer(res,200,"success","admin profile fetched successfully",adminPrfile)
     }
 });
 

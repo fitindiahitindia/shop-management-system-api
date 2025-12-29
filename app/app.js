@@ -24,6 +24,7 @@ app.use(express.json()); //pass incoming json data
 
 const path = require("path");
 const moneyTransferRouter = require("../routes/moneyTransferRoute");
+const validate = require("../utils/validate");
 app.get("/",(req,res)=>{
   res.sendFile(path.join(__dirname + '/index.html'))
 })
